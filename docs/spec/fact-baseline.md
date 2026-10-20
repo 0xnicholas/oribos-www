@@ -80,7 +80,7 @@
 | 18 | `@oribos/sqlite` | 能力包 |
 | 19 | `@oribos/supervisor` | 能力包 |
 
-不在 0.9.0 发布面 / 非公开：`@oribos/lease`（main 上新增的叶子包，不在 v0.9.0 tag；站面不要写成已发布）、`@oribos/testing`（private，never published）。
+不在 0.9.0 发布面 / 非公开：`@oribos/lease`（main 上新增的叶子包，不在 v0.9.0 tag；npm 实测 `NOT PUBLISHED`；站面不要写成已发布）、`@oribos/testing`（private，never published）。
 
 ---
 
@@ -361,6 +361,6 @@ find oribos-docs/src/content/docs/docs/reference/api -type f | wc -l
 | `oribos-website` | `5ab2f62` | 2026-10-11 | clean，`main` |
 | `oribos-docs` | `b03e3ce` | 2026-10-04 | clean，`main` |
 | `oribos-www` | `spec/fact-baseline` | 2026-10-20 | 本文所在分支；基于 `research/mastra-site-audit` |
-| npm | 0.9.0 | 2026-10-20 | `@oribos/core` / `@oribos/supervisor` 实测 0.9.0（见 #4 审计）；本 session registry 查询较慢，发布集合以 tag + Release notes 为准 |
+| npm | 0.9.0 | 2026-10-20 | 本 session 实测 17/19 包为 0.9.0，`@oribos/lease` 为 `NOT PUBLISHED`；`supervisor` / `sqlite` 未在超时前返回，以 v0.9.0 Release notes + tag + #4 审计补齐 |
 
 _本文只做事实基线；页面能否上线，仍取决于 #16 的交接验收与 #18 的部署基线。_
