@@ -1,0 +1,217 @@
+{
+  "route": "/developer-infrastructure/",
+  "title": "Developer infrastructure — Oribos",
+  "description": "Give product teams agent primitives they install one at a time: core subpaths, capability packages, and MCP endpoints, with traces in the collector you already run.",
+  "h1": "Developer infrastructure",
+  "eyebrow": "SOLUTIONS · DEVELOPER INFRASTRUCTURE",
+  "positioning": "Ship primitives other teams build on — each team installs only what it uses.",
+  "family": "solutions",
+  "seo": {
+    "jsonLd": ["Organization", "BreadcrumbList"]
+  },
+  "sections": [
+    {
+      "type": "prose",
+      "heading": "A platform team without a platform",
+      "body": "Platform teams are asked to make agents available across the organisation without becoming the team that owns every agent. A shared runtime forces every product team into one deployment, one upgrade cadence, and one set of abstractions; a blank repository leaves each team to reinvent tools, memory, and tracing.\n\nOribos is the middle path: a published set of packages, each with one concern and a small surface. A product team installs the core subpaths it needs and adds capability packages one at a time. The platform team's job is to make the paved path good — the shared tracer, the MCP endpoint, the version policy — not to run every team's agents.\n\nThe same packages expose the seams a platform team needs: `@oribos/otlp` exports spans to the collector you already run, `@oribos/mcp-server` publishes tools over MCP, and `@oribos/otel-bridge` opens real OpenTelemetry spans through the team's own `TracerProvider`."
+    },
+    {
+      "type": "scenarioCards",
+      "heading": "Three ways platform teams use Oribos",
+      "intro": "The platform owns the paved path. Each product team owns its agent.",
+      "cards": [
+        {
+          "name": "Primitives, not a platform",
+          "body": "A product team installs `@oribos/core` and the subpaths it calls — agent, tools, memory, workflows — without adopting a runtime or a control plane. Capability packages are additive, so the dependency set grows with the use case, not with the platform. The core has zero runtime dependencies; each capability package carries only its own.",
+          "packages": ["@oribos/core", "@oribos/core/agent", "@oribos/core/tools"],
+          "example": {
+            "label": "minimal-agent",
+            "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/minimal-agent",
+            "external": true
+          },
+          "docs": {
+            "label": "Import map",
+            "href": "/docs/reference/import-map/"
+          }
+        },
+        {
+          "name": "Trace into the stack you already run",
+          "body": "`@oribos/otlp` exports the framework's spans as GenAI semantic-convention data over OTLP/HTTP, so a run lands in the collector your platform team already operates. `@oribos/otel-bridge` takes the other path: it opens real OpenTelemetry spans through the host's `TracerProvider`. There is no Oribos dashboard in either path.",
+          "packages": ["@oribos/core/observability", "@oribos/otlp", "@oribos/otel-bridge"],
+          "example": {
+            "label": "otlp-collector",
+            "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/otlp-collector",
+            "external": true
+          },
+          "docs": {
+            "label": "Observability",
+            "href": "/docs/concepts/observability/"
+          }
+        },
+        {
+          "name": "Publish an agent as shared infrastructure",
+          "body": "`@oribos/mcp-server` serves a tool container over MCP — an HTTP fetch handler or stdio — and `@oribos/mcp-client` bridges those tools back into any product team's agent. The exposed surface is the protocol, not an internal import, so teams consume the capability without taking the platform's implementation into their build. The tool container stays the unit you version.",
+          "packages": ["@oribos/mcp-server", "@oribos/mcp-client"],
+          "example": {
+            "label": "mcp-tools",
+            "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/mcp-tools",
+            "external": true
+          },
+          "docs": {
+            "label": "Tools",
+            "href": "/docs/concepts/tools/"
+          }
+        }
+      ]
+    },
+    {
+      "type": "referenceArchitecture",
+      "heading": "Where the shared surface lives",
+      "body": "The platform owns the paved path and the endpoint; each product team owns its agent and its deployment.",
+      "flow": [
+        {
+          "label": "Product teams",
+          "detail": "Each team builds its own agent with the core subpaths it calls, on its own release cadence."
+        },
+        {
+          "label": "Core subpaths",
+          "detail": "`@oribos/core/agent`, `@oribos/core/tools`, `@oribos/core/memory`, `@oribos/core/workflows`: one import per concern, no runtime."
+        },
+        {
+          "label": "Capability packages",
+          "detail": "`@oribos/otlp`, `@oribos/otel-bridge`, `@oribos/mcp-server`, and others, added one at a time."
+        },
+        {
+          "label": "MCP endpoint",
+          "detail": "`@oribos/mcp-server` exposes a team's tool container over HTTP or stdio for other teams to consume."
+        }
+      ],
+      "tools": {
+        "label": "Traces through @oribos/otlp",
+        "detail": "Every package writes into one tracer. `@oribos/otlp` maps the spans to GenAI semantic conventions and exports OTLP/HTTP to the collector you already run."
+      },
+      "gate": {
+        "label": "Your collector",
+        "detail": "Your OTLP collector receives the spans in the wire format it already accepts. No Oribos dashboard sits in the path."
+      },
+      "caption": "Reference architecture, not a deployment diagram. The collector, version policy, and release cadence belong to the platform team."
+    },
+    {
+      "type": "packageMap",
+      "heading": "Packages on this path",
+      "intro": "These published 0.9.0 packages cover the path above and its immediate edges. Install only the ones you use.",
+      "packages": [
+        {
+          "name": "@oribos/core",
+          "role": "Core",
+          "purpose": "The composition root plus the agent, tools, memory, workflows, schedules, signals, observability, and durable-agent subpaths."
+        },
+        {
+          "name": "@oribos/otlp",
+          "role": "Capability",
+          "purpose": "OTLP/HTTP exporter; Oribos spans mapped to GenAI semantic conventions."
+        },
+        {
+          "name": "@oribos/otel-bridge",
+          "role": "Capability",
+          "purpose": "Real OpenTelemetry spans through the host `TracerProvider`; no-op without one."
+        },
+        {
+          "name": "@oribos/mcp-server",
+          "role": "Capability",
+          "purpose": "A tool container served over MCP, as an HTTP fetch handler or over stdio."
+        }
+      ],
+      "note": "Every package here is published at 0.9.0. Core subpaths share the zero-dependency core; each capability package adds only its own dependencies."
+    },
+    {
+      "type": "boundaries",
+      "heading": "What Oribos is not",
+      "intro": "A solution page is also a boundary. These are deliberate.",
+      "items": [
+        {
+          "title": "Not a hosted platform",
+          "body": "There is no Oribos control plane, managed runtime, or agent registry. The platform team deploys the packages where its organisation already runs software, and product teams keep their own deployments."
+        },
+        {
+          "title": "Not a replacement for your observability stack",
+          "body": "Oribos emits spans; it does not store, index, or display them. `@oribos/otlp` exports to your collector and `@oribos/otel-bridge` uses your `TracerProvider`. There is no Oribos dashboard."
+        },
+        {
+          "title": "Not a monolith",
+          "body": "Product teams install core subpaths and capability packages individually. Adopting the tracer does not pull in MCP, RAG, or SQLite; the dependency set follows the use case."
+        }
+      ]
+    },
+    {
+      "type": "examples",
+      "heading": "Runnable evidence",
+      "intro": "Each example is a program that asserts its own payoff. Run one before you trust this page.",
+      "items": [
+        {
+          "name": "minimal-agent",
+          "proves": "Defines a five-field agent with one tool and streams one run through the built-in loop, with the tracer assembled once in the composition root.",
+          "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/minimal-agent"
+        },
+        {
+          "name": "otlp-collector",
+          "proves": "Runs a traced agent, receives its spans in a local OTLP collector as GenAI semantic-convention data, and asserts the span tree, attributes, and the failure face.",
+          "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/otlp-collector"
+        },
+        {
+          "name": "mcp-tools",
+          "proves": "Serves a tool container over MCP and bridges it back as a tool record over both HTTP and stdio, asserting the snapshot and refresh lifecycle.",
+          "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/mcp-tools"
+        }
+      ]
+    },
+    {
+      "type": "code",
+      "heading": "One tracer, handed down once",
+      "language": "ts",
+      "filename": "examples/otlp-collector/src/index.ts",
+      "code": "  const tracer = createTracer({ exporters: [exporter] });\n  const app = createApp({ tracer });\n  const agent = app.agent({\n    name: 'refund-desk',\n    instructions: 'You are the refund desk. Check the order, then answer in one short sentence.',\n    model: scriptedModel([\n      { toolCall: { name: 'checkOrder', input: { orderId: 'A-4471' } }, usage: { inputTokens: 11, outputTokens: 4 } },\n      { text: ANSWER, usage: { inputTokens: 23, outputTokens: 9 } },\n    ]),\n    tools: { checkOrder: checkOrderTool() },\n  });",
+      "source": {
+        "label": "examples/otlp-collector/src/index.ts",
+        "href": "https://github.com/0xnicholas/oribos-framework/blob/main/examples/otlp-collector/src/index.ts#L220-L230",
+        "external": true
+      }
+    },
+    {
+      "type": "faq",
+      "heading": "Questions this page raises",
+      "items": [
+        {
+          "q": "Do product teams have to adopt the whole framework?",
+          "a": "No. They install `@oribos/core` and the subpaths they call; capability packages are additive. Adopting the tracer does not pull in MCP, RAG, or SQLite."
+        },
+        {
+          "q": "Does Oribos provide a dashboard for traces?",
+          "a": "No. Oribos emits spans; `@oribos/otlp` exports them over OTLP/HTTP and `@oribos/otel-bridge` uses the host's `TracerProvider`. Your existing collector stores and displays them."
+        },
+        {
+          "q": "Where does the platform boundary sit?",
+          "a": "At the MCP endpoint and the version policy. The platform team publishes shared tools and the paved path; each product team deploys and operates its own agent."
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "heading": "Give every team the same small surface.",
+      "body": "Start with the Quickstart, then trace an example into your own collector.",
+      "actions": [
+        {
+          "label": "Quickstart",
+          "href": "/docs/get-started/quickstart/",
+          "variant": "primary"
+        },
+        {
+          "label": "GitHub",
+          "href": "https://github.com/0xnicholas/oribos-framework",
+          "variant": "secondary",
+          "external": true
+        }
+      ]
+    }
+  ]
+}

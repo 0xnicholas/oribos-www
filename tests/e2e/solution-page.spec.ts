@@ -1,4 +1,6 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test } from '@playwright/test';
+
+import { expectNoCustomerProof, sentenceCount } from './solution-helpers';
 
 const PATH = '/customer-facing-agents/';
 const EXAMPLE_BASE = 'https://github.com/0xnicholas/oribos-framework/tree/main/examples';
@@ -37,22 +39,6 @@ const FAQ_QUESTIONS = [
   'Does Oribos host the agent for me?',
   'Where do authentication and data live?',
 ] as const;
-
-function sentenceCount(text: string): number {
-  return text
-    .trim()
-    .split(/(?<=[.!?])\s+/)
-    .filter(Boolean).length;
-}
-
-async function expectNoCustomerProof(page: Page): Promise<void> {
-  const main = page.locator('main');
-
-  await expect(
-    main.locator('img, blockquote, [data-testimonial], [data-customer-logo]'),
-  ).toHaveCount(0);
-  await expect(main).not.toContainText(/trusted by|used by \d|testimonial/i);
-}
 
 test.describe('customer-facing agents solution page', () => {
   test.use({ viewport: { width: 1440, height: 900 }, colorScheme: 'dark' });

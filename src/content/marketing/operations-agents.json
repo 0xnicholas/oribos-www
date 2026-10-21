@@ -1,0 +1,230 @@
+{
+  "route": "/operations-agents/",
+  "title": "Operations agents — Oribos",
+  "description": "Put agents on the operational busywork: your MCP tools, a cron, signal, or webhook to start, and a human on the risky steps. Runs suspend to a snapshot, not a resident worker.",
+  "h1": "Operations agents",
+  "eyebrow": "SOLUTIONS · OPERATIONS",
+  "positioning": "Agents that handle the busywork around your team — with a human on the risky steps.",
+  "family": "solutions",
+  "seo": {
+    "jsonLd": ["Organization", "BreadcrumbList"]
+  },
+  "sections": [
+    {
+      "type": "prose",
+      "heading": "The work is repetitive. The mistakes are not.",
+      "body": "The team already runs the systems: the ticketing queue, the billing ledger, the internal admin API. Much of the work around them is repetitive — triage this, reconcile that, draft the status note — but the work is not cheap to get wrong. The usual answers are a resident worker you now operate, or a workflow product that owns the logic somewhere you cannot inspect.\n\nOribos takes a third path. A cron expression, a signal, or a webhook starts a run in the process you already deploy. The agent calls the MCP tools your team exposes, and when a step crosses the line the run suspends with a JSON snapshot and waits for a person. Nothing executes while it waits, and the run's state is a JSON snapshot in a store you choose."
+    },
+    {
+      "type": "scenarioCards",
+      "heading": "Three ways teams put an agent on operations",
+      "intro": "Each card is a path through the systems your team already runs. The packages are the only additions.",
+      "cards": [
+        {
+          "name": "Use the MCP tools you already run",
+          "body": "Tools from an existing MCP server become ordinary Oribos tools through `@oribos/mcp-client`, over HTTP or stdio. The bridged container is the same tool record an agent's `tools:` takes, so calls still go to the systems your team governs. There is no new tool registry and no second integration path.",
+          "packages": ["@oribos/mcp-client", "@oribos/core/tools"],
+          "example": {
+            "label": "mcp-tools",
+            "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/mcp-tools",
+            "external": true
+          },
+          "docs": {
+            "label": "Tools",
+            "href": "/docs/concepts/tools/"
+          }
+        },
+        {
+          "name": "Put a human on the risky step",
+          "body": "A tool named on the durable wrapper's approval list does not execute: the run writes a snapshot, settles `'suspended'`, and returns control to your application. `resume(runId, { approved })` continues the same run from another process — approved executes the held call, rejected answers it with a rejection the model replans from. The ledger moves only after the decision.",
+          "packages": ["@oribos/core/durable-agent", "@oribos/sqlite"],
+          "example": {
+            "label": "durable-approval",
+            "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/durable-approval",
+            "external": true
+          },
+          "docs": {
+            "label": "Suspend and resume",
+            "href": "/docs/concepts/suspend-resume/"
+          }
+        },
+        {
+          "name": "Wake on a schedule or a signal",
+          "body": "`@oribos/croner` turns one cron expression into the `next` fragment `schedules.save()` takes, and `tick` fires what is due when your platform's cron hits an endpoint. A signal wakes a run the same way, and `@oribos/background-tasks` carries app-owned work with at-least-once delivery. The process is yours; there is no Oribos worker to keep alive.",
+          "packages": [
+            "@oribos/core/schedules",
+            "@oribos/croner",
+            "@oribos/background-tasks"
+          ],
+          "example": {
+            "label": "cron-schedule",
+            "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/cron-schedule",
+            "external": true
+          },
+          "docs": {
+            "label": "Signals desk",
+            "href": "/docs/guides/signals-desk/"
+          }
+        }
+      ]
+    },
+    {
+      "type": "referenceArchitecture",
+      "heading": "From a trigger to a snapshot",
+      "body": "The run exists while it executes. Between a trigger and a decision, the snapshot is the state.",
+      "flow": [
+        {
+          "label": "Cron, signal, or webhook",
+          "detail": "A platform cron, a signal, or an HTTP webhook calls your endpoint. `tick()` fires what is due; nothing polls in the background."
+        },
+        {
+          "label": "Agent",
+          "detail": "An agent on `@oribos/core/agent` runs the loop in your process, with the tools you hand it."
+        },
+        {
+          "label": "MCP tools",
+          "detail": "`@oribos/mcp-client` bridges existing MCP servers into ordinary tools; calls still hit the APIs your team governs."
+        },
+        {
+          "label": "Approval gate",
+          "detail": "A held call does not execute: the run settles `'suspended'` with an `AgentRunSnapshotStore` snapshot."
+        },
+        {
+          "label": "Snapshot store",
+          "detail": "The snapshot is a JSON port. `@oribos/sqlite` persists it; `resume(runId, { approved })` re-enters from another process."
+        }
+      ],
+      "tools": {
+        "label": "Where the human sits",
+        "detail": "Approval is a decision on the run, not an inbox. The person approves or rejects in the workflow or console your team already uses; the snapshot is the only state that crosses."
+      },
+      "gate": {
+        "label": "Delivery semantics",
+        "detail": "`@oribos/background-tasks` is at-least-once and leaves idempotency to the application. `@oribos/distributed-signals` is at-most-once: a wake is not a durable queue."
+      },
+      "caption": "Reference architecture, not a deployment diagram. Oribos runs no worker; the trigger endpoint and the snapshot store are yours."
+    },
+    {
+      "type": "packageMap",
+      "heading": "Packages on this path",
+      "intro": "These published 0.9.0 packages cover the path above and its immediate edges. Install only the ones you use.",
+      "packages": [
+        {
+          "name": "@oribos/core",
+          "role": "Core",
+          "purpose": "Agents, tools, schedules, signals, the durable-agent approval gate, and storage ports."
+        },
+        {
+          "name": "@oribos/mcp-client",
+          "role": "Capability",
+          "purpose": "Remote MCP server tools as ordinary Oribos tools, over HTTP or stdio."
+        },
+        {
+          "name": "@oribos/background-tasks",
+          "role": "Capability",
+          "purpose": "App-owned background tasks with a lease, heartbeat, and settle; at-least-once."
+        },
+        {
+          "name": "@oribos/distributed-signals",
+          "role": "Capability",
+          "purpose": "Cross-instance signal routing with lease-arbitrated idle wake; at-most-once."
+        },
+        {
+          "name": "@oribos/sqlite",
+          "role": "Capability",
+          "purpose": "SQLite adapters for the memory, workflow snapshot, agent-run snapshot, and schedule ports."
+        }
+      ],
+      "note": "Every package here is published at 0.9.0. The core has zero runtime dependencies; capability packages carry only their own."
+    },
+    {
+      "type": "boundaries",
+      "heading": "What Oribos is not",
+      "intro": "A solution page is also a boundary. These are deliberate.",
+      "items": [
+        {
+          "title": "Not an always-on worker",
+          "body": "There is no resident process to keep alive. A platform cron, a signal, or a webhook starts work; between decisions the run is state in a snapshot store, not a loop in memory."
+        },
+        {
+          "title": "Not a workflow SaaS",
+          "body": "The workflow, the triggers, and the records stay in your application. Oribos is a library you deploy, not a control plane you log in to."
+        },
+        {
+          "title": "Not a replacement for your operations tooling",
+          "body": "The ticketing system, the ledger, and the admin API remain authoritative. Tools call them; Oribos does not copy their state or open a second path to it."
+        }
+      ]
+    },
+    {
+      "type": "examples",
+      "heading": "Runnable evidence",
+      "intro": "Each example is a program that asserts its own payoff. Run one before you trust this page.",
+      "items": [
+        {
+          "name": "mcp-tools",
+          "proves": "Serves one tool container over MCP, bridges it back as a tool record over HTTP and stdio, and asserts the snapshot, both projections, the negative path, and refresh.",
+          "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/mcp-tools"
+        },
+        {
+          "name": "durable-approval",
+          "proves": "Holds a refund at the approval gate, writes the loop snapshot, and resumes with approval or rejection. The ledger moves only after the decision.",
+          "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/durable-approval"
+        },
+        {
+          "name": "cron-schedule",
+          "proves": "Turns one expression into the `next` fragment `schedules.save()` takes, fires on `tick`, and asserts an early tick is a no-op and the record advances one day.",
+          "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/cron-schedule"
+        }
+      ]
+    },
+    {
+      "type": "code",
+      "heading": "One expression, one saved schedule",
+      "language": "ts",
+      "filename": "examples/cron-schedule/src/index.ts",
+      "code": "  const definition = cron('0 9 * * *', { timezone: 'Asia/Shanghai' });\n  const savedAt = Date.now();\n  const record = await schedules.save({\n    id: 'daily-report',\n    ...definition,\n    target: { agent: 'reporter', input: 'write the daily report' },\n  });",
+      "source": {
+        "label": "examples/cron-schedule/src/index.ts",
+        "href": "https://github.com/0xnicholas/oribos-framework/blob/main/examples/cron-schedule/src/index.ts#L114-L120",
+        "external": true
+      }
+    },
+    {
+      "type": "faq",
+      "heading": "Questions this page raises",
+      "items": [
+        {
+          "q": "Does this need a worker running all the time?",
+          "a": "No. A platform cron, a signal, or a webhook calls an endpoint, and `tick()` fires what is due. A suspended run is a JSON snapshot in a store you choose; nothing runs while it waits."
+        },
+        {
+          "q": "What happens when the process dies mid-run?",
+          "a": "With a persistent snapshot store, a suspended run resumes from its snapshot with `resume(runId, { approved })`; the default in-memory store does not survive a restart. `@oribos/background-tasks` is at-least-once and leaves idempotency to your application; `@oribos/distributed-signals` is at-most-once."
+        },
+        {
+          "q": "Do I have to move my operations tools into Oribos?",
+          "a": "No. Existing MCP servers are bridged as-is, and plain HTTP tools work too. The ticketing system, ledger, and admin API stay authoritative."
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "heading": "Put an agent on the busywork.",
+      "body": "Start with the Quickstart, then run the schedule and approval examples end to end.",
+      "actions": [
+        {
+          "label": "Quickstart",
+          "href": "/docs/get-started/quickstart/",
+          "variant": "primary"
+        },
+        {
+          "label": "GitHub",
+          "href": "https://github.com/0xnicholas/oribos-framework",
+          "variant": "secondary",
+          "external": true
+        }
+      ]
+    }
+  ]
+}

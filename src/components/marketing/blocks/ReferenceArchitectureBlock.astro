@@ -44,7 +44,8 @@ const { block } = Astro.props;
 
   .architecture__flow {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
     gap: var(--space-16);
     margin: 0;
     padding: 0;
@@ -139,7 +140,8 @@ const { block } = Astro.props;
 
   @media (max-width: 1023px) {
     .architecture__flow {
-      grid-template-columns: 1fr;
+      grid-auto-columns: auto;
+      grid-auto-flow: row;
     }
 
     .architecture__node:not(:last-child)::after {
