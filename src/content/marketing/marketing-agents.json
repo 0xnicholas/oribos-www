@@ -1,0 +1,225 @@
+{
+  "route": "/marketing-agents/",
+  "title": "Marketing agents — Oribos",
+  "description": "Turn a brief into channel drafts, route models, and check every draft with a processor or eval before a person approves it. Nothing publishes automatically.",
+  "h1": "Marketing agents",
+  "eyebrow": "SOLUTIONS · MARKETING",
+  "positioning": "Draft and check campaign content with the tools you already use.",
+  "family": "solutions",
+  "seo": {
+    "jsonLd": ["Organization", "BreadcrumbList"]
+  },
+  "sections": [
+    {
+      "type": "prose",
+      "heading": "The campaign spans channels. The judgment stays human.",
+      "body": "A campaign starts as a brief and ends as a set of channel drafts: a landing page, an email, a launch post, a shorter variant for each surface. The work moves between a writer, a reviewer, and the tools that already hold the brand and the calendar. An agent can carry the repetitive part — produce the first draft, keep the voice consistent, check it against a rubric — but the publish decision is not repetitive.\n\nOribos keeps the workflow in your application. A brief starts a workflow; `@oribos/model-router` picks the model each step asks for; the channel drafts come back as validated step outputs. A processor can rewrite or reject a draft, and `@oribos/evals` scores runs and steps without changing them. The run then suspends at a human approval step, and nothing is written to an external CMS while it waits."
+    },
+    {
+      "type": "scenarioCards",
+      "heading": "Three ways teams put an agent on campaign work",
+      "intro": "Each card is a path through the brief, the models, and the channels your team already uses. The packages are the only additions.",
+      "cards": [
+        {
+          "name": "Draft a campaign from a brief",
+          "body": "A brief enters a workflow as validated input, and each step writes one channel draft as a typed output. `@oribos/model-router` turns a `'provider/model'` string into the model instance for that step, so a long-form draft and a short social variant can use different models without a registry. The drafts land in your application, not an external CMS.",
+          "packages": ["@oribos/core/workflows", "@oribos/model-router"],
+          "example": {
+            "label": "workflow-approval",
+            "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/workflow-approval",
+            "external": true
+          },
+          "docs": {
+            "label": "Workflows",
+            "href": "/docs/concepts/workflows/"
+          }
+        },
+        {
+          "name": "Split one draft into channel variants",
+          "body": "A step hands the long-form draft to a background task that produces the email, landing page, and social variants out of band. `@oribos/background-tasks` drives task rows, a lease, and a settle; the finished result reports back through a signal. The run ends on the ack, so a slow channel job does not hold the request open.",
+          "packages": ["@oribos/background-tasks", "@oribos/core/signals"],
+          "example": {
+            "label": "background-tasks",
+            "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/background-tasks",
+            "external": true
+          },
+          "docs": {
+            "label": "Durable execution",
+            "href": "/docs/concepts/durable-execution/"
+          }
+        },
+        {
+          "name": "Check before a human approves",
+          "body": "`@oribos/evals` scores every step or the settled run and writes the outcomes to your sink; a failing scorer is recorded, not turned into a publish decision. A hand-written processor is the guardrail: it can rewrite or throw before the draft reaches the approval step. The workflow then suspends for a person, and approval is the only path to publish.",
+          "packages": ["@oribos/evals", "@oribos/core/agent"],
+          "example": {
+            "label": "agent-evals",
+            "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/agent-evals",
+            "external": true
+          },
+          "docs": {
+            "label": "Processors",
+            "href": "/docs/concepts/processors/"
+          }
+        }
+      ]
+    },
+    {
+      "type": "referenceArchitecture",
+      "heading": "From a brief to an approved draft",
+      "body": "The workflow owns the steps and the snapshot. The model router picks the model; the processor and eval check the output; a person makes the publish decision.",
+      "flow": [
+        {
+          "label": "Brief",
+          "detail": "Validated input starts a workflow in your process."
+        },
+        {
+          "label": "Workflow",
+          "detail": "`@oribos/core/workflows` runs typed steps and records the run's position."
+        },
+        {
+          "label": "Model router",
+          "detail": "`@oribos/model-router` resolves a `'provider/model'` string to the model each step asks for."
+        },
+        {
+          "label": "Channel drafts",
+          "detail": "Each step returns a typed draft for one channel: email, landing page, social, or a shorter variant."
+        },
+        {
+          "label": "Processor / eval check",
+          "detail": "A processor can rewrite or throw; `@oribos/evals` scores steps and runs and records the outcomes without changing them."
+        },
+        {
+          "label": "Human approval",
+          "detail": "The workflow suspends at the approval step. Only a resume with the reviewer's decision lets the run finish."
+        }
+      ],
+      "tools": {
+        "label": "Tools stay yours",
+        "detail": "The CMS, the asset store, and the brand references remain your systems. A tool call is your code; Oribos does not ship a CMS connector or publish on its own."
+      },
+      "gate": {
+        "label": "No automatic publish",
+        "detail": "Approval is a step in the workflow. A suspended run writes a snapshot and waits; nothing reaches an external CMS until a person resumes it."
+      },
+      "caption": "Reference architecture, not a customer story. The workflow, the models, and the publish step remain yours."
+    },
+    {
+      "type": "packageMap",
+      "heading": "Packages on this path",
+      "intro": "These published 0.9.0 packages cover the path above and its immediate edges. Install only the ones you use.",
+      "packages": [
+        {
+          "name": "@oribos/core",
+          "role": "Core",
+          "purpose": "Workflows, agents, processors, signals, and storage ports."
+        },
+        {
+          "name": "@oribos/model-router",
+          "role": "Capability",
+          "purpose": "'provider/model' strings resolved to model instances from a catalog; parse and resolve only."
+        },
+        {
+          "name": "@oribos/evals",
+          "role": "Capability",
+          "purpose": "Step and run scorers, plus the Processor seam for live scoring."
+        },
+        {
+          "name": "@oribos/background-tasks",
+          "role": "Capability",
+          "purpose": "App-owned background tasks with a lease, heartbeat, and settle; at-least-once."
+        }
+      ],
+      "note": "Every package here is published at 0.9.0. The core has zero runtime dependencies; capability packages carry only their own."
+    },
+    {
+      "type": "boundaries",
+      "heading": "What Oribos is not",
+      "intro": "A solution page is also a boundary. These are deliberate.",
+      "items": [
+        {
+          "title": "Not a customer story",
+          "body": "This page is a reference architecture. It does not describe a deployed marketing customer, and Oribos makes no claim of one."
+        },
+        {
+          "title": "Not an autonomous publisher",
+          "body": "No draft reaches an external CMS on the agent's judgment. The workflow suspends at a human approval step; publishing is your code after a resume."
+        },
+        {
+          "title": "Not a brand-safety guarantee",
+          "body": "`@oribos/evals` scores what a run produced, and a processor can rewrite or throw. Oribos does not guarantee brand safety, factual accuracy, or legal compliance beyond the eval and processor checks your team writes."
+        }
+      ]
+    },
+    {
+      "type": "examples",
+      "heading": "Runnable evidence",
+      "intro": "Each example is a program that asserts its own payoff. Run one before you trust this page.",
+      "items": [
+        {
+          "name": "workflow-approval",
+          "proves": "Walks typed steps, suspends at an approval gate into a JSON snapshot, and resumes from the recorded position in a fresh run object.",
+          "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/workflow-approval"
+        },
+        {
+          "name": "background-tasks",
+          "proves": "Acks a report in a tool, completes it in an application-owned worker, and reports back through one signal; an adopted orphan re-runs to completion.",
+          "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/background-tasks"
+        },
+        {
+          "name": "agent-evals",
+          "proves": "Scores each step through `createScorerProcessor` and the settled run with `scoreRun`, and isolates a throwing scorer without disturbing the run.",
+          "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/agent-evals"
+        }
+      ]
+    },
+    {
+      "type": "code",
+      "heading": "Score every draft step without changing the run",
+      "language": "ts",
+      "filename": "examples/agent-evals/src/index.ts",
+      "code": "const desk = supportDesk([\n  createScorerProcessor({\n    scorers: [focusedStep, progressingStep],\n    onScore: (outcome) => {\n      liveOutcomes.push(outcome);\n      const score = outcome.ok ? `score ${outcome.score.value}` : `FAILED: ${outcome.error}`;\n      console.log(`  step ${outcome.stepIndex} · ${outcome.scorer}: ${score}`);\n    },\n  }),\n]);",
+      "source": {
+        "label": "examples/agent-evals/src/index.ts",
+        "href": "https://github.com/0xnicholas/oribos-framework/blob/main/examples/agent-evals/src/index.ts#L174-L183",
+        "external": true
+      }
+    },
+    {
+      "type": "faq",
+      "heading": "Questions this page raises",
+      "items": [
+        {
+          "q": "Does an approved draft publish itself?",
+          "a": "No. The workflow suspends at a human approval step, and no draft reaches an external CMS while the run waits. Publishing is a separate application action after the decision, not a side effect of the agent."
+        },
+        {
+          "q": "Do evals block a bad draft?",
+          "a": "No. `@oribos/evals` scores steps and runs and records `ok: false` outcomes without failing the run. A processor is the guardrail: it can rewrite a draft or throw before the approval step, and the checks are yours to write."
+        },
+        {
+          "q": "Is this based on a customer deployment?",
+          "a": "No. This is a reference architecture, not a customer story. Oribos does not claim a deployed marketing customer, and the eval step does not guarantee brand safety beyond the checks your team writes."
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "heading": "Draft, check, then let a person decide.",
+      "body": "Start with the Quickstart, then run the workflow and eval examples end to end.",
+      "actions": [
+        {
+          "label": "Quickstart",
+          "href": "/docs/get-started/quickstart/",
+          "variant": "primary"
+        },
+        {
+          "label": "GitHub",
+          "href": "https://github.com/0xnicholas/oribos-framework",
+          "variant": "secondary",
+          "external": true
+        }
+      ]
+    }
+  ]
+}

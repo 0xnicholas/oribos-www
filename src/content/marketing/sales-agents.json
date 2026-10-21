@@ -1,0 +1,224 @@
+{
+  "route": "/sales-agents/",
+  "title": "Sales agents — Oribos",
+  "description": "Research accounts, triage inbound leads, and draft follow-up from your CRM and the web. Every CRM write waits for a person; the run suspends to a snapshot instead of writing on its own.",
+  "h1": "Sales agents",
+  "eyebrow": "SOLUTIONS · SALES",
+  "positioning": "Prospect research and follow-up, with a human on every CRM write.",
+  "family": "solutions",
+  "seo": {
+    "jsonLd": ["Organization", "BreadcrumbList"]
+  },
+  "sections": [
+    {
+      "type": "prose",
+      "heading": "The pipeline is repetitive. The CRM is not disposable.",
+      "body": "An inbound lead starts a chain of small tasks: enrich the account, check the CRM, look up recent news, draft the follow-up, and record the next step. Each task is easy to describe and tedious to repeat. The CRM record is different from the research: it is the system of record, shared by the whole team, and a wrong write is hard to unwind.\n\nOribos keeps the research and drafting in the agent, and the write behind a person. An inbound signal or a CRM event starts a run in your process. The agent calls the CRM through an MCP server and research tools through the same tool surface, drafts the update, and stops at the approval gate. The run suspends with a JSON snapshot — thread memory keeps the account context — and only `resume(runId, { approved })` lets the CRM write execute. The pipeline and the CRM stay authoritative."
+    },
+    {
+      "type": "scenarioCards",
+      "heading": "Three ways teams put an agent on sales work",
+      "intro": "Each card is a path through the CRM and tools your team already runs. The packages are the only additions.",
+      "cards": [
+        {
+          "name": "Triage an inbound lead",
+          "body": "A form fill or an inbound webhook sends a signal into the lead's thread. `@oribos/core/signals` wakes the run if it is idle and injects into it if it is live, so the follow-up starts from the same conversation history. The agent enriches the account and drafts the first reply; nothing reaches the CRM until a person approves it.",
+          "packages": [
+            "@oribos/core/signals",
+            "@oribos/core/agent",
+            "@oribos/core/memory"
+          ],
+          "example": {
+            "label": "signals-desk",
+            "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/signals-desk",
+            "external": true
+          },
+          "docs": {
+            "label": "Signals desk",
+            "href": "/docs/guides/signals-desk/"
+          }
+        },
+        {
+          "name": "Research the account",
+          "body": "Bridge the CRM's MCP server with `@oribos/mcp-client` and add research tools — search, news, or an internal data API — as ordinary tool records. The agent calls both in one loop and writes a short account brief with sources. The tools stay your endpoints; Oribos only carries the calls.",
+          "packages": ["@oribos/mcp-client", "@oribos/core/tools"],
+          "example": {
+            "label": "mcp-tools",
+            "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/mcp-tools",
+            "external": true
+          },
+          "docs": {
+            "label": "Tools",
+            "href": "/docs/concepts/tools/"
+          }
+        },
+        {
+          "name": "Approve the CRM write",
+          "body": "List the CRM write tool on the durable wrapper's approval list. The call does not execute: the run writes a snapshot, settles `'suspended'`, and returns to your application. `resume(runId, { approved: true })` executes the held write; a rejection is fed back to the model and the record stays unchanged.",
+          "packages": ["@oribos/core/durable-agent", "@oribos/sqlite"],
+          "example": {
+            "label": "durable-approval",
+            "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/durable-approval",
+            "external": true
+          },
+          "docs": {
+            "label": "Suspend and resume",
+            "href": "/docs/concepts/suspend-resume/"
+          }
+        }
+      ]
+    },
+    {
+      "type": "referenceArchitecture",
+      "heading": "From an inbound signal to a CRM write",
+      "body": "The CRM is the system of record. The agent drafts around it, and the write is the one arrow that waits for a person.",
+      "flow": [
+        {
+          "label": "Inbound signal or CRM event",
+          "detail": "A form fill, webhook, or CRM change sends a signal into the lead's thread."
+        },
+        {
+          "label": "Agent",
+          "detail": "`@oribos/core/agent` runs the loop in your process with the tools you hand it."
+        },
+        {
+          "label": "CRM MCP + research tools",
+          "detail": "`@oribos/mcp-client` bridges the CRM's MCP server; search and internal data tools sit beside it as ordinary tool records."
+        },
+        {
+          "label": "Draft",
+          "detail": "The agent writes the account brief or follow-up into the thread, with thread memory as the context every step reads."
+        },
+        {
+          "label": "Approval gate",
+          "detail": "The CRM write is on the durable wrapper's approval list; the held call does not execute."
+        },
+        {
+          "label": "CRM write-back",
+          "detail": "`resume(runId, { approved: true })` executes the held write; a rejection returns to the model and leaves the record untouched."
+        }
+      ],
+      "tools": {
+        "label": "Thread memory",
+        "detail": "Memory is the thread's conversation authority: in memory by default, `@oribos/sqlite` when the thread must survive a restart. The CRM record is still the account's state."
+      },
+      "gate": {
+        "label": "Human on every write",
+        "detail": "The application puts every CRM write tool on the approval list. Approval is a decision on the run; nothing executes while it is suspended."
+      },
+      "caption": "Reference architecture, not a customer story. The CRM, its MCP server, and the research tools remain yours."
+    },
+    {
+      "type": "packageMap",
+      "heading": "Packages on this path",
+      "intro": "These published 0.9.0 packages cover the path above and its immediate edges. Install only the ones you use.",
+      "packages": [
+        {
+          "name": "@oribos/core",
+          "role": "Core",
+          "purpose": "Agents, tools, memory, signals, the durable-agent approval gate, and storage ports."
+        },
+        {
+          "name": "@oribos/mcp-client",
+          "role": "Capability",
+          "purpose": "Remote MCP server tools as ordinary Oribos tools, over HTTP or stdio."
+        },
+        {
+          "name": "@oribos/sqlite",
+          "role": "Capability",
+          "purpose": "SQLite adapters for the memory and agent-run snapshot ports."
+        }
+      ],
+      "note": "Every package here is published at 0.9.0. The core has zero runtime dependencies; capability packages carry only their own."
+    },
+    {
+      "type": "boundaries",
+      "heading": "What Oribos is not",
+      "intro": "A solution page is also a boundary. These are deliberate.",
+      "items": [
+        {
+          "title": "Not a customer story",
+          "body": "This page is a reference architecture, not a customer story. It argues how to build the path; the runnable examples are the evidence."
+        },
+        {
+          "title": "Not a customer deployment",
+          "body": "Oribos does not claim a deployed sales customer for this path. Nothing on this page is a deployment story."
+        },
+        {
+          "title": "Not an autonomous CRM writer",
+          "body": "No CRM write executes on the agent's judgment. The application puts every write tool on the approval list, and the run waits in a snapshot until a person decides."
+        }
+      ]
+    },
+    {
+      "type": "examples",
+      "heading": "Runnable evidence",
+      "intro": "Each example is a program that asserts its own payoff. Run one before you trust this page.",
+      "items": [
+        {
+          "name": "signals-desk",
+          "proves": "One support thread receives a wake, an in-flight injection, queued messages, a typed signal, and a scheduled tick; each lands in the same thread and the script asserts it.",
+          "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/signals-desk"
+        },
+        {
+          "name": "mcp-tools",
+          "proves": "Serves three tools over MCP and bridges them back over HTTP and stdio, asserting the snapshot, both projections, the negative path, and refresh.",
+          "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/mcp-tools"
+        },
+        {
+          "name": "durable-approval",
+          "proves": "Holds a gated refund at the approval gate, writes the loop snapshot, and resumes with approval or rejection. The ledger moves only after the decision.",
+          "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/durable-approval"
+        }
+      ]
+    },
+    {
+      "type": "code",
+      "heading": "The approval list lives on the wrapper",
+      "language": "ts",
+      "filename": "examples/durable-approval/src/index.ts",
+      "code": "  // Chat Completions is the lowest common denominator: it works against OpenAI and any\n  // OpenAI-compatible endpoint (Ollama, LM Studio, gateways).\n  model: openai.chat('gpt-4o-mini'),\n  tools: { issueRefund },\n});\n\n/**\n * The durable wrapper: the agent's own run surface plus `resume`, with the approval list declared\n * here. The gate only exists in this wrapper — a bare `agent.generate(...)` never produces\n * `'suspended'` and keeps no snapshot.\n */\nconst durable = app.durableAgent({ agent, approval: { tools: ['issueRefund'] } });",
+      "source": {
+        "label": "examples/durable-approval/src/index.ts",
+        "href": "https://github.com/0xnicholas/oribos-framework/blob/main/examples/durable-approval/src/index.ts#L140-L151",
+        "external": true
+      }
+    },
+    {
+      "type": "faq",
+      "heading": "Questions this page raises",
+      "items": [
+        {
+          "q": "Does the agent write to the CRM on its own?",
+          "a": "No. The application declares every CRM write tool on the durable wrapper's approval list. The call is held, the run writes a JSON snapshot and settles `'suspended'`, and `resume(runId, { approved: true })` is what executes it. A rejection returns to the model and the record stays unchanged."
+        },
+        {
+          "q": "Do we have to replace our CRM or sales tools?",
+          "a": "No. The CRM stays the system of record, and its MCP server is bridged as ordinary tools. Oribos does not ship a pipeline UI, an inbox, or a contact database; the research and drafting run inside the process you already deploy."
+        },
+        {
+          "q": "Is there a customer deployment behind this page?",
+          "a": "No. This is a reference architecture, not a customer story. Oribos does not claim a deployed sales customer for this path; the runnable examples are the evidence."
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "heading": "Put a person on the CRM write.",
+      "body": "Start with the Quickstart, then run the approval example end to end.",
+      "actions": [
+        {
+          "label": "Quickstart",
+          "href": "/docs/get-started/quickstart/",
+          "variant": "primary"
+        },
+        {
+          "label": "GitHub",
+          "href": "https://github.com/0xnicholas/oribos-framework",
+          "variant": "secondary",
+          "external": true
+        }
+      ]
+    }
+  ]
+}
