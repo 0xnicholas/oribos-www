@@ -1,0 +1,125 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+@theme inline {
+  --color-surface-0: var(--surface-0);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+
+  --color-border-hairline: var(--border-hairline);
+  --color-border-strong: var(--border-strong);
+
+  --color-text-1: var(--text-1);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+  --color-text-inv: var(--text-inv);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-text: var(--accent-text);
+  --color-accent-fill: var(--accent-fill);
+  --color-accent-fill-hover: var(--accent-fill-hover);
+  --color-accent-low: var(--accent-low);
+  --color-accent-inv: var(--accent-inv);
+
+  --color-focus-ring: var(--focus-ring);
+  --color-selection-bg: var(--selection-bg);
+  --color-selection-text: var(--selection-text);
+
+  --color-code-bg: var(--code-bg);
+  --color-syntax-keyword: var(--syntax-keyword);
+  --color-syntax-string: var(--syntax-string);
+  --color-syntax-function: var(--syntax-function);
+  --color-syntax-comment: var(--syntax-comment);
+
+  --color-status-success: var(--status-success);
+  --color-status-success-low: var(--status-success-low);
+  --color-status-warning: var(--status-warning);
+  --color-status-warning-low: var(--status-warning-low);
+  --color-status-danger: var(--status-danger);
+  --color-status-danger-low: var(--status-danger-low);
+  --color-status-info: var(--status-info);
+  --color-status-info-low: var(--status-info-low);
+}
+
+:root {
+  --sl-color-bg: var(--surface-0);
+  --sl-color-bg-nav: var(--surface-0);
+  --sl-color-bg-sidebar: var(--surface-0);
+  --sl-color-bg-inline-code: var(--surface-2);
+  --sl-color-text: var(--text-1);
+  --sl-color-text-accent: var(--accent-text);
+  --sl-color-text-invert: var(--accent-inv);
+  --sl-color-hairline: var(--border-hairline);
+  --sl-color-hairline-light: var(--border-hairline);
+  --sl-color-hairline-shade: var(--border-hairline);
+  --sl-color-white: var(--text-1);
+  --sl-color-black: var(--surface-0);
+  --sl-font: var(--font-sans);
+  --sl-font-mono: var(--font-mono);
+  --sl-content-width: var(--docs-article);
+  --sl-sidebar-width: var(--docs-sidebar);
+  --sl-content-pad-x: var(--space-32);
+  --sl-line-height: 1.5;
+}
+
+@font-face {
+  font-family: "InterVar";
+  src: url("/fonts/inter-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--surface-0);
+  color: var(--text-1);
+  font-family: var(--font-sans);
+  font-synthesis: none;
+  scroll-behavior: auto;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  margin: 0;
+  background-color: var(--surface-0);
+  color: var(--text-1);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--text-base--line-height);
+}
+
+::selection {
+  background-color: var(--selection-bg);
+  color: var(--selection-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 2px solid CanvasText;
+  }
+}

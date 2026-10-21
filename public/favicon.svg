@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <title>Oribos</title>
+  <style>
+    .tile { fill: #111111; }
+    .o { fill: none; stroke: #ff7a4d; stroke-width: 5; }
+    @media (prefers-color-scheme: light) {
+      .tile { fill: #f7f5f1; }
+      .o { stroke: #d94f2b; }
+    }
+  </style>
+  <rect class="tile" fill="#111111" width="32" height="32"/>
+  <circle class="o" fill="none" stroke="#ff7a4d" stroke-width="5" cx="16" cy="16" r="8"/>
+</svg>

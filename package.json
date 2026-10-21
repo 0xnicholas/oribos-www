@@ -1,0 +1,46 @@
+{
+  "name": "oribos-www",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.33.2",
+  "engines": {
+    "node": "22.21.x",
+    "pnpm": "10.33.x"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "node scripts/serve-dist.mjs",
+    "typecheck": "astro check",
+    "verify": "pnpm verify:site && pnpm verify:design",
+    "verify:design": "node scripts/verify/design.mjs",
+    "verify:site": "node scripts/verify/site.mjs",
+    "assets:favicons": "node scripts/make-favicons.mjs",
+    "test": "pnpm verify && pnpm typecheck && pnpm build && playwright test"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "0.42.4",
+    "@tailwindcss/vite": "4.3.3",
+    "astro": "7.3.5",
+    "tailwindcss": "4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@playwright/test": "1.61.1",
+    "sharp": "0.35.5",
+    "typescript": "6.0.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "@astrojs/mdx": "8.0.2",
+      "@astrojs/markdown-satteri": "0.4.2",
+      "@astrojs/compiler-rs": "0.5.1",
+      "@astrojs/compiler-binding": "0.5.1",
+      "@types/node": "24.19.0",
+      "postcss": "8.5.19",
+      "vite": "8.3.1",
+      "rolldown": "1.2.12"
+    }
+  }
+}

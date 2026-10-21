@@ -1,0 +1,264 @@
+:root {
+  color-scheme: dark;
+
+  /* Primitives — only tokens.css may reference these. */
+  --graphite-0: #0a0a0a;
+  --graphite-1: #111111;
+  --graphite-2: #181818;
+  --graphite-3: #242424;
+  --graphite-line: #2a2a2a;
+  --graphite-strong: #75756c;
+
+  --paper-0: #f7f5f1;
+  --paper-1: #efede8;
+  --paper-2: #e9e6df;
+  --paper-3: #ddd9d0;
+  --paper-line: #e0dcd3;
+  --paper-strong: #77776e;
+
+  --ink-dark-1: #f2f1ee;
+  --ink-dark-2: #b3b1aa;
+  --ink-dark-3: #8c8c85;
+  --ink-dark-inv: #0a0a0a;
+
+  --ink-light-1: #161513;
+  --ink-light-2: #4d4b46;
+  --ink-light-3: #5f5f58;
+  --ink-light-inv: #f7f5f1;
+
+  --signal-dark-accent: #ff7a4d;
+  --signal-dark-hover: #ff9a73;
+  --signal-dark-low: #3a241c;
+  --signal-dark-inv: #121110;
+
+  --signal-light-accent: #d94f2b;
+  --signal-light-hover: #b93f20;
+  --signal-light-text: #a8371b;
+  --signal-light-fill: #b93f20;
+  --signal-light-fill-hover: #9e3419;
+  --signal-light-low: #f1d9cf;
+  --signal-light-inv: #ffffff;
+
+  --focus-dark: #ff7a4d;
+  --focus-light: #a8371b;
+
+  --selection-dark-bg: #3a241c;
+  --selection-light-bg: #f1d9cf;
+
+  --code-dark-bg: #151513;
+  --code-light-bg: #fafaf8;
+
+  --syntax-dark-keyword: #ff7a4d;
+  --syntax-dark-string: #5eba7d;
+  --syntax-dark-function: #8aabff;
+  --syntax-dark-comment: #8c8c85;
+
+  --syntax-light-keyword: #a8371b;
+  --syntax-light-string: #2d7645;
+  --syntax-light-function: #2f5fd0;
+  --syntax-light-comment: #5f5f58;
+
+  --status-dark-success: #5eba7d;
+  --status-dark-success-low: #12281a;
+  --status-dark-warning: #f5b456;
+  --status-dark-warning-low: #2a2112;
+  --status-dark-danger: #ff7a6e;
+  --status-dark-danger-low: #331512;
+  --status-dark-info: #8aabff;
+  --status-dark-info-low: #15213f;
+
+  --status-light-success: #2d7645;
+  --status-light-success-low: #e8f5ec;
+  --status-light-warning: #8a5a00;
+  --status-light-warning-low: #fff4e0;
+  --status-light-danger: #b42318;
+  --status-light-danger-low: #fee4e2;
+  --status-light-info: #2f5fd0;
+  --status-light-info-low: #e6efff;
+
+  /* Semantic surfaces */
+  --surface-0: var(--graphite-0);
+  --surface-1: var(--graphite-1);
+  --surface-2: var(--graphite-2);
+  --surface-3: var(--graphite-3);
+
+  /* Semantic borders */
+  --border-hairline: var(--graphite-line);
+  --border-strong: var(--graphite-strong);
+
+  /* Semantic text */
+  --text-1: var(--ink-dark-1);
+  --text-2: var(--ink-dark-2);
+  --text-3: var(--ink-dark-3);
+  --text-inv: var(--ink-dark-inv);
+
+  /* Semantic accent */
+  --accent: var(--signal-dark-accent);
+  --accent-hover: var(--signal-dark-hover);
+  --accent-text: var(--signal-dark-accent);
+  --accent-fill: var(--signal-dark-accent);
+  --accent-fill-hover: var(--signal-dark-hover);
+  --accent-low: var(--signal-dark-low);
+  --accent-inv: var(--signal-dark-inv);
+
+  /* Semantic focus and selection */
+  --focus-ring: var(--focus-dark);
+  --selection-bg: var(--selection-dark-bg);
+  --selection-text: var(--ink-dark-1);
+
+  /* Semantic code and syntax */
+  --code-bg: var(--code-dark-bg);
+  --syntax-keyword: var(--syntax-dark-keyword);
+  --syntax-string: var(--syntax-dark-string);
+  --syntax-function: var(--syntax-dark-function);
+  --syntax-comment: var(--syntax-dark-comment);
+
+  /* Semantic status */
+  --status-success: var(--status-dark-success);
+  --status-success-low: var(--status-dark-success-low);
+  --status-warning: var(--status-dark-warning);
+  --status-warning-low: var(--status-dark-warning-low);
+  --status-danger: var(--status-dark-danger);
+  --status-danger-low: var(--status-dark-danger-low);
+  --status-info: var(--status-dark-info);
+  --status-info-low: var(--status-dark-info-low);
+
+  /* Typography */
+  --font-sans: "InterVar", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+
+  --text-xs: 13px;
+  --text-xs--line-height: 20px;
+  --text-base: 16px;
+  --text-base--line-height: 24px;
+  --text-lg: 21px;
+  --text-lg--line-height: 28px;
+  --text-xl: 28px;
+  --text-xl--line-height: 36px;
+  --text-2xl: 38px;
+  --text-2xl--line-height: 44px;
+  --text-3xl: 50px;
+  --text-3xl--line-height: 56px;
+  --text-4xl: 67px;
+  --text-4xl--line-height: 72px;
+  --text-5xl: 89px;
+  --text-5xl--line-height: 96px;
+  --text-mono-xs: 11px;
+  --text-mono-xs--line-height: 16px;
+  --text-mono-sm: 12px;
+  --text-mono-sm--line-height: 20px;
+
+  --font-weight-normal: 400;
+  --font-weight-semibold: 600;
+  --tracking-heading: -0.025em;
+  --tracking-wordmark: -0.03em;
+  --tracking-mono: 0.08em;
+
+  /* Space */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-72: 72px;
+  --space-96: 96px;
+  --space-144: 144px;
+
+  /* Layout */
+  --container: 1328px;
+  --gutter: 32px;
+  --grid-gap: 16px;
+  --section-y: 72px;
+  --hero-y: 80px 0 72px;
+  --rail-w: 180px;
+  --rail-gap: 48px;
+  --docs-sidebar: 280px;
+  --docs-article: 768px;
+  --docs-toc: 220px;
+  --docs-gap: 48px;
+  --header-h: 64px;
+
+  /* Layers */
+  --z-content: 0;
+  --z-sticky: 10;
+  --z-header: 100;
+  --z-overlay: 200;
+  --z-menu: 300;
+  --z-skip: 500;
+
+  /* Motion */
+  --duration-color: 120ms;
+  --duration-opacity: 160ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --surface-0: var(--paper-0);
+  --surface-1: var(--paper-1);
+  --surface-2: var(--paper-2);
+  --surface-3: var(--paper-3);
+
+  --border-hairline: var(--paper-line);
+  --border-strong: var(--paper-strong);
+
+  --text-1: var(--ink-light-1);
+  --text-2: var(--ink-light-2);
+  --text-3: var(--ink-light-3);
+  --text-inv: var(--ink-light-inv);
+
+  --accent: var(--signal-light-accent);
+  --accent-hover: var(--signal-light-hover);
+  --accent-text: var(--signal-light-text);
+  --accent-fill: var(--signal-light-fill);
+  --accent-fill-hover: var(--signal-light-fill-hover);
+  --accent-low: var(--signal-light-low);
+  --accent-inv: var(--signal-light-inv);
+
+  --focus-ring: var(--focus-light);
+  --selection-bg: var(--selection-light-bg);
+  --selection-text: var(--ink-light-1);
+
+  --code-bg: var(--code-light-bg);
+  --syntax-keyword: var(--syntax-light-keyword);
+  --syntax-string: var(--syntax-light-string);
+  --syntax-function: var(--syntax-light-function);
+  --syntax-comment: var(--syntax-light-comment);
+
+  --status-success: var(--status-light-success);
+  --status-success-low: var(--status-light-success-low);
+  --status-warning: var(--status-light-warning);
+  --status-warning-low: var(--status-light-warning-low);
+  --status-danger: var(--status-light-danger);
+  --status-danger-low: var(--status-light-danger-low);
+  --status-info: var(--status-light-info);
+  --status-info-low: var(--status-light-info-low);
+}
+
+@media (max-width: 1327px) {
+  :root {
+    --gutter: 24px;
+  }
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --header-h: 56px;
+    --section-y: 48px;
+    --hero-y: 64px 0 56px;
+    --rail-w: 120px;
+    --rail-gap: 24px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --gutter: 16px;
+    --section-y: 36px;
+    --hero-y: 56px 0 48px;
+  }
+}
