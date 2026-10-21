@@ -236,7 +236,7 @@ The four keyword pages have canonical detailed outlines in `keyword-pages.md` §
 
 - One primary query per page; no primary query is shared with another page.
 - `TypeScript` may appear in `title`, `meta description`, and `og:title`; it must not appear in H1 or the first screen.
-- Every page has one 5–15 line code block from a runnable example and 2–3 “Used in” links.
+- At most one 5–15 line code block per page, from a runnable example; 2–3 “Used in” links.
 - Each page has 4–6 local FAQ entries; no global FAQ duplication.
 - `/ai-agent-framework/` is the only page with `SoftwareApplication` JSON-LD; no `aggregateRating`.
 - No page owns deployment or platform observability; those queries are boundaries, not targets.
@@ -729,6 +729,6 @@ The four keyword pages have canonical detailed outlines in `keyword-pages.md` §
 - No customer logos, testimonials, customer counts, fake screenshots, invented benchmarks, or unpublished versions.
 - `zero runtime dependencies` only describes core; capability packages carry their own dependencies.
 - Platform is always `(Planned)`; no dates, prices, waitlists, or fake UI.
-- Every page has a `.md` twin, head alternate link, canonical, OG, and `lang=en` + self hreflang + x-default.
+- Every indexable page has a `.md` twin, head alternate link, canonical, OG, and `lang=en` + self hreflang + x-default; 404 is noindex and has no canonical.
 - No empty stubs: P1/P2 pages stay in the matrix as `planned` and are not generated.
 - Pagefind: `<main data-pagefind-body>`; nav/footer ignored; 404 and `.md` twins excluded.

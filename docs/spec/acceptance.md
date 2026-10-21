@@ -21,7 +21,7 @@ The spec is ready to hand off when all of these are true.
 
 - [ ] Every `launch` and `planned` row has a non-empty `title`, `family`, `page_type`, `audience`, `status`, `priority`, `template`, `source`, `indexable`, `route_count`, and `notes`.
 - [ ] Every `launch` row has a non-empty `url`; the only row with an empty `url` is the `planned` 18-package-overview bundle row.
-- [ ] Every `launch` row has `canonical=self` except `/404/`, which is `noindex`.
+- [ ] Every `launch` row has `canonical=self` except `/404/`, which is `none` (no canonical, noindex).
 - [ ] Every `launch` row with an `outline_ref` resolves to a heading in `page-outlines.md` or a section in a topic spec.
 - [ ] Every `not_doing` row has a reason in `notes` and `indexable=false`.
 - [ ] No URL appears twice with conflicting statuses; no two `launch`/`planned` rows share a URL.
@@ -150,10 +150,10 @@ The build/launch effort must pass all of these before launch. The exact scripts 
 
 ### B9. SEO, social, and structured data
 
-- [ ] Canonical is absolute, self-referencing, and trailing-slash; `SITE_ORIGIN` is a single source; no hardcoded domain.
+- [ ] Canonical is absolute, self-referencing, and trailing-slash on every indexable page; `SITE_ORIGIN` is a single source; no hardcoded domain. The 404 page has no canonical and is noindex.
 - [ ] Every page has `og:title`, `og:description`, `og:url`, `og:image`, `og:image:alt`, `og:site_name`; per-page OG falls back to the default when missing.
 - [ ] Twitter uses `summary_large_image`; `twitter:title`, `twitter:description`, and `twitter:image` derive from OG; no `twitter:site` until a handle exists.
-- [ ] JSON-LD matches visible content: `Organization` site-wide, `WebSite` home only, `BreadcrumbList` inner pages, `FAQPage` where visible FAQ exists, `SoftwareApplication` only on `/ai-agent-framework/`.
+- [ ] JSON-LD matches visible content: `Organization` site-wide, `WebSite` home only, `BreadcrumbList` inner pages, `FAQPage` on home and keyword pages only (matching the visible FAQ), `SoftwareApplication` only on `/ai-agent-framework/`.
 - [ ] No `aggregateRating`, review schema, invisible structured data, or `Article`/`BlogPosting`.
 - [ ] Every page has `lang=en`, self `hreflang=en`, `x-default`, and `og:locale=en_US`; no `/zh/` and no language switcher.
 
@@ -167,7 +167,7 @@ The build/launch effort must pass all of these before launch. The exact scripts 
 
 - [ ] Home: 8 sections in order; locked H1/sub/CTAs/facts; 7 FAQ; no customer proof, Platform block, or path chooser.
 - [ ] Each solution page: 3 scenario cards, 3 FAQ, 1–3 runnable examples, reference architecture, package map, boundaries, one 5–15 line code block; no customer proof.
-- [ ] Each keyword page: 3–4 argument sections, 4–6 FAQ, one primary query, one code block, 2–3 “Used in” links; no TypeScript in H1/first screen.
+- [ ] Each keyword page: 3–4 argument sections, 4–6 FAQ, one primary query, at most one code block, 2–3 “Used in” links; no TypeScript in H1/first screen.
 - [ ] Templates: at least 12 complete cards, 23-example index, 3 Start here cards, filters, two links per card; otherwise the page is delayed.
 - [ ] Changelog: 5 entries (v0.9.0–v0.5.0), 3–5 highlights each, GitHub link; no raw release body, detail pages, or RSS.
 - [ ] Docs: 24 handwritten pages with real content; 249 generated pages; no empty stub; P1/P2 pages not generated.

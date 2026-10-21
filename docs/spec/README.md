@@ -59,18 +59,18 @@ counts above are a summary, not a second source of truth. Bundle rows may have a
 |---|---|---|
 | `url` | launch / planned | Public route or proposed route; empty only for bundle rows |
 | `title` | yes | HTML `<title>` / page title |
-| `family` | yes | `home`, `company`, `legal`, `solutions`, `keyword`, `product`, `support`, `resources`, `system`, `docs`, `i18n` |
+| `family` | yes | `home`, `company`, `legal`, `solutions`, `keyword`, `product`, `support`, `resources`, `system`, `docs`, `i18n`, `commercial` |
 | `page_type` | yes | `marketing`, `solution`, `keyword`, `product-direction`, `service`, `resource-index`, `legal`, `error`, `docs-landing`, `docs-concept`, `docs-guide`, `docs-reference`, `docs-api`, etc. |
 | `audience` | yes | Who the page is for |
 | `status` | yes | `launch`, `planned`, `not_doing` |
 | `priority` | yes | `P0` for launch, `P1`/`P2` for planned |
 | `template` | yes | Page template key; `docs-package-overview` for the bundle row |
-| `primary_query` | keyword pages | One primary query per page; empty elsewhere |
+| `primary_query` | keyword pages, `/platform/` | One primary query per page; empty elsewhere |
 | `outline_ref` | launch | `#anchor` in `page-outlines.md`, or a topic-spec section |
 | `required_assets` | launch | Images, diagrams, OG, code/trace sources |
 | `internal_links` | launch | Semicolon-separated link targets |
 | `source` | yes | `new`, `existing`, `existing; refreshed`, `301 from …`, `generated`, `planned`, `n/a` |
-| `canonical` | launch | `self`, `noindex` (404 only), or empty for unbuilt rows |
+| `canonical` | launch | `self`, `none` (404 only), or empty for unbuilt rows |
 | `indexable` | yes | `true` / `false` |
 | `route_count` | yes | 1, 249 for the API tree, 18 for the package bundle |
 | `notes` | yes | Scope, migration, fact-refresh, or `not_doing` reason |
