@@ -1,10 +1,16 @@
 ---
+import BoundariesBlock from '@/components/marketing/blocks/BoundariesBlock.astro';
+import CodeBlock from '@/components/marketing/blocks/CodeBlock.astro';
 import CtaBlock from '@/components/marketing/blocks/CtaBlock.astro';
+import ExamplesBlock from '@/components/marketing/blocks/ExamplesBlock.astro';
+import FaqBlock from '@/components/marketing/blocks/FaqBlock.astro';
+import PackageMapBlock from '@/components/marketing/blocks/PackageMapBlock.astro';
 import ProseBlock from '@/components/marketing/blocks/ProseBlock.astro';
+import ReferenceArchitectureBlock from '@/components/marketing/blocks/ReferenceArchitectureBlock.astro';
+import ScenarioCardsBlock from '@/components/marketing/blocks/ScenarioCardsBlock.astro';
 import {
   BLOCK_REGISTRY,
   type Block,
-  type CtaBlock as CtaBlockData,
   type ProseBlock as ProseBlockData,
 } from '@/lib/blocks';
 
@@ -13,13 +19,23 @@ interface Props {
 }
 
 const { block } = Astro.props;
-const renderer = BLOCK_REGISTRY[block.type].renderer;
-const expectedRenderer = block.type === 'prose' ? 'ProseBlock' : 'CtaBlock';
+const rendererName = BLOCK_REGISTRY[block.type].renderer;
+const RENDERERS = {
+  ProseBlock,
+  CtaBlock,
+  ScenarioCardsBlock,
+  ReferenceArchitectureBlock,
+  PackageMapBlock,
+  BoundariesBlock,
+  ExamplesBlock,
+  CodeBlock,
+  FaqBlock,
+};
+const Renderer = RENDERERS[rendererName as keyof typeof RENDERERS] as typeof ProseBlock;
 
-if (renderer !== expectedRenderer) {
-  throw new Error(`No HTML renderer registered for block "${block.type}" (${renderer})`);
+if (!Renderer) {
+  throw new Error(`No HTML renderer registered for block "${block.type}" (${rendererName})`);
 }
 ---
 
-{renderer === 'ProseBlock' && <ProseBlock block={block as ProseBlockData} />}
-{renderer === 'CtaBlock' && <CtaBlock block={block as CtaBlockData} />}
+<Renderer block={block as ProseBlockData} />

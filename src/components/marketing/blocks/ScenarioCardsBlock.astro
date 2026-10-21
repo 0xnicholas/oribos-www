@@ -1,0 +1,150 @@
+---
+import BlockHeading from '@/components/marketing/BlockHeading.astro';
+import Arrow from '@/components/primitives/Arrow.astro';
+import type { ScenarioCardsBlock } from '@/lib/blocks';
+import { renderMarkdown } from '@/lib/markdown';
+
+interface Props {
+  block: ScenarioCardsBlock;
+}
+
+const { block } = Astro.props;
+---
+
+<section class="scenario-cards" data-block="scenarioCards">
+  <BlockHeading heading={block.heading} intro={block.intro} />
+  <ul class="scenario-cards__grid">
+    {
+      block.cards.map((card) => (
+        <li class="scenario-card" data-scenario-card>
+          <h3 class="scenario-card__name">{card.name}</h3>
+          <div class="scenario-card__body prose" set:html={renderMarkdown(card.body)} />
+          <ul class="scenario-card__packages" aria-label="Packages">
+            {card.packages.map((name) => (
+              <li>
+                <code class="scenario-card__package">{name}</code>
+              </li>
+            ))}
+          </ul>
+          <div class="scenario-card__links">
+            <a
+              class="scenario-card__link"
+              href={card.example.href}
+              rel={card.example.external ? 'noreferrer' : undefined}
+            >
+              Example: {card.example.label} <Arrow />
+            </a>
+            <a
+              class="scenario-card__link"
+              href={card.docs.href}
+              rel={card.docs.external ? 'noreferrer' : undefined}
+            >
+              Docs: {card.docs.label} <Arrow />
+            </a>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .scenario-cards__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-16);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .scenario-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding: var(--space-24);
+    border: 1px solid var(--border-hairline);
+    background-color: var(--surface-0);
+    transition: border-color var(--duration-color) var(--ease-standard);
+  }
+
+  .scenario-card:hover {
+    border-color: var(--accent);
+  }
+
+  .scenario-card:focus-within {
+    border-color: var(--accent-text);
+  }
+
+  .scenario-card:hover .scenario-card__name {
+    color: var(--accent-text);
+  }
+
+  .scenario-card__name {
+    margin: 0;
+    color: var(--text-1);
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--text-lg--line-height);
+    letter-spacing: var(--tracking-heading);
+    transition: color var(--duration-color) var(--ease-standard);
+  }
+
+  .scenario-card__body {
+    flex: 1;
+  }
+
+  .scenario-card__packages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .scenario-card__package {
+    display: inline-block;
+    padding: 2px 6px;
+    border: 1px solid var(--border-hairline);
+    background-color: var(--surface-2);
+    color: var(--text-1);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+    white-space: nowrap;
+  }
+
+  .scenario-card__links {
+    display: grid;
+    gap: var(--space-8);
+    padding-block-start: var(--space-16);
+    border-block-start: 1px solid var(--border-hairline);
+  }
+
+  .scenario-card__link {
+    color: var(--accent-text);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--text-sm--line-height);
+    text-decoration-line: none;
+  }
+
+  .scenario-card__link:hover {
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+  }
+
+  @media (max-width: 1023px) {
+    .scenario-cards__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 767px) {
+    .scenario-cards__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

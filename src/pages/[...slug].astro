@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 
 import MarketingLayout from '@/layouts/MarketingLayout.astro';
+import SolutionLayout from '@/layouts/SolutionLayout.astro';
 
 interface Props {
   entry: CollectionEntry<'marketing'>;
@@ -32,6 +33,7 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
+const Layout = entry.data.family === 'solutions' ? SolutionLayout : MarketingLayout;
 ---
 
-<MarketingLayout entry={entry} />
+<Layout entry={entry} />

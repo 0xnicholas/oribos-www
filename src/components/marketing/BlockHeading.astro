@@ -1,0 +1,36 @@
+---
+import { renderMarkdown } from '@/lib/markdown';
+
+interface Props {
+  heading: string;
+  intro?: string;
+}
+
+const { heading, intro } = Astro.props;
+---
+
+<header class="block-heading">
+  <h2 class="block-heading__title">{heading}</h2>
+  {intro && <div class="block-heading__intro prose" set:html={renderMarkdown(intro)} />}
+</header>
+
+<style>
+  .block-heading {
+    display: grid;
+    gap: var(--space-16);
+    margin-block-end: var(--space-32);
+  }
+
+  .block-heading__title {
+    margin: 0;
+    color: var(--text-1);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--text-xl--line-height);
+    letter-spacing: var(--tracking-heading);
+  }
+
+  .block-heading__intro {
+    max-inline-size: 72ch;
+  }
+</style>

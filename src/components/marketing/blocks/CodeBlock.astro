@@ -1,0 +1,150 @@
+---
+import type { CodeBlock } from '@/lib/blocks';
+
+interface Props {
+  block: CodeBlock;
+}
+
+const { block } = Astro.props;
+---
+
+<section class="code-section" data-block="code">
+  <h2 class="code-section__heading">{block.heading}</h2>
+  <figure class="code-block" data-code-block>
+    <div class="code-block__header">
+      <span class="code-block__filename">{block.filename}</span>
+      <button class="code-block__copy" type="button" aria-label="Copy code" data-copy-code>
+        <span data-copy-label>Copy</span>
+      </button>
+      <span class="code-block__status" role="status" aria-live="polite" data-copy-status></span>
+    </div>
+    <pre tabindex="0"><code class={`language-${block.language}`}>{block.code}</code></pre>
+    <figcaption class="code-block__source">
+      <a
+        href={block.source.href}
+        rel={block.source.external ? 'noreferrer' : undefined}
+      >
+        {block.source.label}
+      </a>
+    </figcaption>
+  </figure>
+</section>
+
+<script>
+  import '@/scripts/code-copy';
+</script>
+
+<style>
+  .code-section__heading {
+    margin: 0 0 var(--space-32);
+    color: var(--text-1);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--text-xl--line-height);
+    letter-spacing: var(--tracking-heading);
+  }
+
+  .code-block {
+    max-inline-size: 100%;
+    min-inline-size: 0;
+    margin: 0;
+    border: 1px solid var(--border-hairline);
+    background-color: var(--code-bg);
+  }
+
+  .code-block__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-16);
+    min-block-size: 40px;
+    padding-inline: var(--space-16);
+    border-block-end: 1px solid var(--border-hairline);
+    background-color: var(--surface-2);
+  }
+
+  .code-block__filename {
+    overflow: hidden;
+    color: var(--text-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-xs);
+    line-height: var(--text-mono-xs--line-height);
+    letter-spacing: var(--tracking-mono);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .code-block__copy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 32px;
+    padding-inline: var(--space-8);
+    border: 0;
+    background-color: transparent;
+    color: var(--text-3);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-xs);
+    line-height: var(--text-mono-xs--line-height);
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+  }
+
+  .code-block__copy:hover {
+    color: var(--text-1);
+  }
+
+  .code-block__copy:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  .code-block__status {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .code-block pre {
+    margin: 0;
+    padding: var(--space-16) var(--space-16);
+    overflow-x: auto;
+  }
+
+  .code-block pre:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: -2px;
+  }
+
+  .code-block code {
+    color: var(--text-1);
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-sm);
+    line-height: 1.65;
+    white-space: pre;
+  }
+
+  .code-block__source {
+    padding: var(--space-12) var(--space-16);
+    border-block-start: 1px solid var(--border-hairline);
+    color: var(--text-3);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+  }
+
+  .code-block__source a {
+    color: var(--accent-text);
+    font-weight: var(--font-weight-semibold);
+    text-decoration-line: none;
+  }
+
+  .code-block__source a:hover {
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+  }
+</style>

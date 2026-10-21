@@ -1,0 +1,36 @@
+---
+interface Props {
+  direction?: 'right' | 'down';
+}
+
+const { direction = 'right' } = Astro.props;
+const path =
+  direction === 'right'
+    ? 'M2.5 8h11M9 3.5 13.5 8 9 12.5'
+    : 'M8 2.5v11M3.5 9 8 13.5 12.5 9';
+---
+
+<svg
+  class="arrow"
+  viewBox="0 0 16 16"
+  width="16"
+  height="16"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path
+    d={path}
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"></path>
+</svg>
+
+<style>
+  .arrow {
+    display: inline-block;
+    flex: none;
+    vertical-align: -0.125em;
+  }
+</style>

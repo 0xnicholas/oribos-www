@@ -1,0 +1,104 @@
+---
+import BlockHeading from '@/components/marketing/BlockHeading.astro';
+import type { PackageMapBlock } from '@/lib/blocks';
+
+interface Props {
+  block: PackageMapBlock;
+}
+
+const { block } = Astro.props;
+---
+
+<section class="package-map" data-block="packageMap" data-package-map>
+  <BlockHeading heading={block.heading} intro={block.intro} />
+  <div class="package-map__wrap">
+    <table class="package-map__table">
+      <caption class="package-map__caption">Published packages on this path</caption>
+      <thead>
+        <tr>
+          <th scope="col">Package</th>
+          <th scope="col">Role</th>
+          <th scope="col">What it gives you</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          block.packages.map((entry) => (
+            <tr data-package>
+              <th scope="row">
+                <code>{entry.name}</code>
+              </th>
+              <td>{entry.role}</td>
+              <td>{entry.purpose}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+  {block.note && <p class="package-map__note">{block.note}</p>}
+</section>
+
+<style>
+  .package-map__wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border-hairline);
+  }
+
+  .package-map__table {
+    inline-size: 100%;
+    min-inline-size: 640px;
+    border-collapse: collapse;
+    color: var(--text-2);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+  }
+
+  .package-map__caption {
+    padding: var(--space-12) var(--space-16);
+    border-block-end: 1px solid var(--border-hairline);
+    color: var(--text-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-xs);
+    line-height: var(--text-mono-xs--line-height);
+    letter-spacing: var(--tracking-mono);
+    text-align: start;
+    text-transform: uppercase;
+  }
+
+  .package-map__table th,
+  .package-map__table td {
+    padding: var(--space-12) var(--space-16);
+    border: 1px solid var(--border-hairline);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .package-map__table thead th {
+    background-color: var(--surface-2);
+    color: var(--text-1);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .package-map__table tbody th {
+    color: var(--text-1);
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
+  }
+
+  .package-map__table code {
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    color: var(--accent-text);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+  }
+
+  .package-map__note {
+    margin: var(--space-16) 0 0;
+    color: var(--text-3);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+  }
+</style>

@@ -55,6 +55,8 @@ export const marketingSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
   h1: z.string().min(1),
+  eyebrow: z.string().min(1).optional(),
+  positioning: z.string().min(1).optional(),
   family: z.enum(MARKETING_FAMILIES),
   seo: marketingSeoSchema,
   sections: z.array(blockSchema).min(1),

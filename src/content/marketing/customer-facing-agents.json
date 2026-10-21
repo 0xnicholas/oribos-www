@@ -1,0 +1,222 @@
+{
+  "route": "/customer-facing-agents/",
+  "title": "Customer-facing agents — Oribos",
+  "description": "Add an agent to the app your customers already use: streamed answers in your UI, tools over your own API, and a human on the risky steps.",
+  "h1": "Customer-facing agents",
+  "eyebrow": "SOLUTIONS · CUSTOMER-FACING",
+  "positioning": "Answer your users, act inside your product, hand off to a human.",
+  "family": "solutions",
+  "seo": {
+    "jsonLd": ["Organization", "BreadcrumbList"]
+  },
+  "sections": [
+    {
+      "type": "prose",
+      "heading": "The app is already running",
+      "body": "Your application already has an interface, an auth layer, a data model, and an API. Adding an agent should not mean running a second service beside it or moving the conversation out of the product your customers already use. The agent should stream an answer into the interface you own, call the endpoints you already trust, and stop when a step is too risky to take without a person.\n\nOribos is the layer inside that application, not a destination next to it. A route built with `@oribos/ai-sdk` speaks the AI SDK UI message stream, so an existing `useChat` client keeps working. Tools are plain objects with schemas over your own API. When a call needs approval, the run suspends with a snapshot and waits: it does not execute, and it does not need to stay in memory. The same run can still resume from another process once a human has decided."
+    },
+    {
+      "type": "scenarioCards",
+      "heading": "Three ways teams add an agent",
+      "intro": "Each card is a path through the same host application. The packages are the only additions.",
+      "cards": [
+        {
+          "name": "Answer, streamed into your UI",
+          "body": "A route built with `@oribos/ai-sdk` speaks the AI SDK UI message stream, so the `useChat` client you already have keeps rendering tokens and tool parts. The server runs an agent whose memory is the conversation authority: the client's message list is never replayed. Each user picks up the thread where they left off.",
+          "packages": ["@oribos/core/agent", "@oribos/core/memory", "@oribos/ai-sdk"],
+          "example": {
+            "label": "ai-chat-route",
+            "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/ai-chat-route",
+            "external": true
+          },
+          "docs": {
+            "label": "Agents",
+            "href": "/docs/concepts/agents/"
+          }
+        },
+        {
+          "name": "Act, through your own API",
+          "body": "Your endpoints become tools: plain objects with an input schema and an execute function. Multi-step work composes as workflows where every boundary is validated, and a tool call passes through the authorization your application already applies. Oribos does not open a second path to your data.",
+          "packages": ["@oribos/core/tools", "@oribos/core/workflows"],
+          "example": {
+            "label": "workflow-approval",
+            "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/workflow-approval",
+            "external": true
+          },
+          "docs": {
+            "label": "Tools",
+            "href": "/docs/concepts/tools/"
+          }
+        },
+        {
+          "name": "Hand off, with the run on hold",
+          "body": "Put a tool on the durable wrapper's approval list and the call does not execute: the run writes a JSON snapshot, settles `'suspended'`, and returns control to your application. `resume(runId, { approved })` continues the same run — approved executes the held call, rejected answers it with a rejection result the model replans from. The snapshot is a port, so the decision can come from another process.",
+          "packages": ["@oribos/core/durable-agent", "@oribos/sqlite"],
+          "example": {
+            "label": "durable-approval",
+            "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/durable-approval",
+            "external": true
+          },
+          "docs": {
+            "label": "Suspend and resume",
+            "href": "/docs/concepts/suspend-resume/"
+          }
+        }
+      ]
+    },
+    {
+      "type": "referenceArchitecture",
+      "heading": "Where the agent lives",
+      "body": "The agent stays inside the application you already operate. Every arrow is a seam you own or can replace.",
+      "flow": [
+        {
+          "label": "Host UI",
+          "detail": "Your existing interface. `useChat` or any client talks to one route."
+        },
+        {
+          "label": "AI SDK route",
+          "detail": "`@oribos/ai-sdk` translates Oribos chunks into the AI SDK UI message stream."
+        },
+        {
+          "label": "Durable agent",
+          "detail": "`@oribos/core/durable-agent` runs the loop and holds gated calls at the step boundary."
+        },
+        {
+          "label": "Memory store",
+          "detail": "Thread history lives behind a port: in memory by default, `@oribos/sqlite` when it must survive a restart."
+        }
+      ],
+      "tools": {
+        "label": "Your API as tools",
+        "detail": "Endpoints become tools with schemas; authentication and authorization stay in your application."
+      },
+      "gate": {
+        "label": "Approval gate",
+        "detail": "Side effects wait for `resume(runId, { approved })`. Nothing executes while the run is suspended."
+      },
+      "caption": "Reference architecture, not a deployment diagram. The host UI, identity, and data model remain yours."
+    },
+    {
+      "type": "packageMap",
+      "heading": "Packages on this path",
+      "intro": "These published 0.9.0 packages cover the path above and its immediate edges. Install only the ones you use.",
+      "packages": [
+        {
+          "name": "@oribos/core",
+          "role": "Core",
+          "purpose": "Agents, tools, memory, workflows, and the durable-agent approval gate."
+        },
+        {
+          "name": "@oribos/ai-sdk",
+          "role": "Capability",
+          "purpose": "The AI SDK UI message stream and a useChat-compatible route."
+        },
+        {
+          "name": "@oribos/sqlite",
+          "role": "Capability",
+          "purpose": "SQLite adapters for the memory, workflow snapshot, agent-run snapshot, and schedule ports."
+        },
+        {
+          "name": "@oribos/resumable-stream",
+          "role": "Capability",
+          "purpose": "Records a run's chunk stream so a reconnecting client can observe it again."
+        },
+        {
+          "name": "@oribos/checkpoints",
+          "role": "Capability",
+          "purpose": "A checkpoint per workflow step, with recovery from the last completed step."
+        }
+      ],
+      "note": "Every package here is published at 0.9.0. The core is zero-dependency; capability packages install alongside it, one at a time."
+    },
+    {
+      "type": "boundaries",
+      "heading": "What Oribos is not",
+      "intro": "A solution page is also a boundary. These are deliberate.",
+      "items": [
+        {
+          "title": "Not a chat product",
+          "body": "Oribos does not ship a customer-facing chat interface, inbox, or conversation console. The interface, its identity, and its history belong to your application."
+        },
+        {
+          "title": "Not a hosted service",
+          "body": "There is no Oribos gateway, managed runtime, or dashboard in the request path. You deploy the route and the agent where your application already runs."
+        },
+        {
+          "title": "Not a replacement for your auth or data model",
+          "body": "Authentication, authorization, tenancy, and records stay in your system. A tool call is still your code calling your API, and `identity` maps the request to a thread and resource."
+        }
+      ]
+    },
+    {
+      "type": "examples",
+      "heading": "Runnable evidence",
+      "intro": "Each example is a program that asserts its own payoff. Run one before you trust this page.",
+      "items": [
+        {
+          "name": "ai-chat-route",
+          "proves": "A `useChat`-compatible route streams an answer, suspends on an approval-gated tool call, resumes out of band, and recalls the thread on the next turn.",
+          "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/ai-chat-route"
+        },
+        {
+          "name": "workflow-approval",
+          "proves": "A workflow walks validated steps, suspends at an approval gate into a JSON snapshot, and a fresh run object resumes from the recorded position.",
+          "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/workflow-approval"
+        },
+        {
+          "name": "durable-approval",
+          "proves": "A durable agent holds a gated refund, writes the loop snapshot, and resumes with approval or rejection. Money moves only after the decision.",
+          "href": "https://github.com/0xnicholas/oribos-framework/tree/main/examples/durable-approval"
+        }
+      ]
+    },
+    {
+      "type": "code",
+      "heading": "One route, one durable run",
+      "language": "ts",
+      "filename": "examples/ai-chat-route/src/index.ts",
+      "code": "  const durable = app.durableAgent({ agent, approval: { tools: ['issueRefund'] } });\n\n  // ── The route, hosted on plain node:http ────────────────────────────────────────────────────\n  const route = createChatRoute({\n    agent: durable,\n    // Authorization is the application's: identity maps the raw request to thread/resource.\n    identity: () => ({ resource: THREAD.resource }),\n  });",
+      "source": {
+        "label": "examples/ai-chat-route/src/index.ts",
+        "href": "https://github.com/0xnicholas/oribos-framework/blob/main/examples/ai-chat-route/src/index.ts#L97-L104",
+        "external": true
+      }
+    },
+    {
+      "type": "faq",
+      "heading": "Questions this page raises",
+      "items": [
+        {
+          "q": "Do I have to replace my chat UI?",
+          "a": "No. The route built with `@oribos/ai-sdk` speaks the AI SDK UI message stream, so an existing `useChat` client keeps rendering. The interface stays yours."
+        },
+        {
+          "q": "Does Oribos host the agent for me?",
+          "a": "No. There is no Oribos gateway, managed runtime, or dashboard in the request path. You deploy the route and the agent where your application already runs, and a snapshot store is a port you choose."
+        },
+        {
+          "q": "Where do authentication and data live?",
+          "a": "In your application. Authentication, authorization, tenancy, and records stay in your system. A tool call is your code calling your API, and `identity` maps the request to a thread and resource."
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "heading": "Build it into your app.",
+      "body": "Start with the Quickstart, then run an example end to end.",
+      "actions": [
+        {
+          "label": "Quickstart",
+          "href": "/docs/get-started/quickstart/",
+          "variant": "primary"
+        },
+        {
+          "label": "GitHub",
+          "href": "https://github.com/0xnicholas/oribos-framework",
+          "variant": "secondary",
+          "external": true
+        }
+      ]
+    }
+  ]
+}

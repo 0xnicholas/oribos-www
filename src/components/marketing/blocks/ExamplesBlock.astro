@@ -1,0 +1,112 @@
+---
+import BlockHeading from '@/components/marketing/BlockHeading.astro';
+import Arrow from '@/components/primitives/Arrow.astro';
+import type { ExamplesBlock } from '@/lib/blocks';
+import { renderMarkdown } from '@/lib/markdown';
+
+interface Props {
+  block: ExamplesBlock;
+}
+
+const { block } = Astro.props;
+---
+
+<section class="examples" data-block="examples">
+  <BlockHeading heading={block.heading} intro={block.intro} />
+  <ul class="examples__grid">
+    {
+      block.items.map((item) => (
+        <li class="example" data-example>
+          <h3 class="example__name">
+            <code>{item.name}</code>
+          </h3>
+          <div class="example__proof prose" set:html={renderMarkdown(item.proves)} />
+          <a class="example__link" href={item.href} rel="noreferrer">
+            View source on GitHub <Arrow />
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .examples__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-16);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .example {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding: var(--space-24);
+    border: 1px solid var(--border-hairline);
+    background-color: var(--surface-0);
+    transition: border-color var(--duration-color) var(--ease-standard);
+  }
+
+  .example:hover {
+    border-color: var(--accent);
+  }
+
+  .example:focus-within {
+    border-color: var(--accent-text);
+  }
+
+  .example:hover .example__name {
+    color: var(--accent-text);
+  }
+
+  .example__name {
+    margin: 0;
+    color: var(--text-1);
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--text-lg--line-height);
+    transition: color var(--duration-color) var(--ease-standard);
+  }
+
+  .example__name code {
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    color: var(--accent-text);
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+  }
+
+  .example__proof {
+    flex: 1;
+  }
+
+  .example__link {
+    color: var(--accent-text);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--text-sm--line-height);
+    text-decoration-line: none;
+  }
+
+  .example__link:hover {
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+  }
+
+  @media (max-width: 1023px) {
+    .examples__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 767px) {
+    .examples__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

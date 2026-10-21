@@ -1,0 +1,157 @@
+---
+import BlockHeading from '@/components/marketing/BlockHeading.astro';
+import type { ReferenceArchitectureBlock } from '@/lib/blocks';
+import { renderMarkdown } from '@/lib/markdown';
+
+interface Props {
+  block: ReferenceArchitectureBlock;
+}
+
+const { block } = Astro.props;
+---
+
+<figure class="architecture" data-block="referenceArchitecture" data-architecture>
+  <BlockHeading heading={block.heading} intro={block.body} />
+  <ol class="architecture__flow" data-architecture-flow>
+    {
+      block.flow.map((step) => (
+        <li class="architecture__node" data-architecture-step>
+          <span class="architecture__label" data-architecture-label>
+            {step.label}
+          </span>
+          <div class="architecture__detail prose" set:html={renderMarkdown(step.detail)} />
+        </li>
+      ))
+    }
+  </ol>
+  <div class="architecture__edges">
+    <div class="architecture__edge" data-architecture-tools>
+      <h3 class="architecture__edge-title">{block.tools.label}</h3>
+      <div class="architecture__edge-body prose" set:html={renderMarkdown(block.tools.detail)} />
+    </div>
+    <div class="architecture__edge architecture__edge--gate" data-architecture-gate>
+      <h3 class="architecture__edge-title">{block.gate.label}</h3>
+      <div class="architecture__edge-body prose" set:html={renderMarkdown(block.gate.detail)} />
+    </div>
+  </div>
+  {block.caption && <figcaption class="architecture__caption">{block.caption}</figcaption>}
+</figure>
+
+<style>
+  .architecture {
+    margin: 0;
+  }
+
+  .architecture__flow {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-16);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .architecture__node {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding: var(--space-16);
+    border: 1px solid var(--border-hairline);
+    background-color: var(--surface-0);
+  }
+
+  .architecture__node:not(:last-child)::after {
+    position: absolute;
+    inset-block-start: calc(50% - 7px);
+    inset-inline-end: calc(var(--space-16) / -2 - 5px);
+    padding-inline: 2px;
+    background-color: var(--surface-0);
+    color: var(--accent-text);
+    content: '→';
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1;
+  }
+
+  .architecture__label {
+    color: var(--text-1);
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--text-base--line-height);
+  }
+
+  .architecture__detail {
+    color: var(--text-2);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+  }
+
+  .architecture__detail :global(p) {
+    margin: 0;
+  }
+
+  .architecture__edges {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-16);
+    margin-block-start: var(--space-16);
+  }
+
+  .architecture__edge {
+    padding: var(--space-16);
+    border: 1px solid var(--border-hairline);
+    border-inline-start: 1px solid var(--accent);
+    background-color: var(--surface-0);
+  }
+
+  .architecture__edge--gate {
+    border-inline-start-color: var(--border-hairline);
+  }
+
+  .architecture__edge-title {
+    margin: 0 0 var(--space-8);
+    color: var(--text-1);
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--text-base--line-height);
+  }
+
+  .architecture__edge-body {
+    color: var(--text-2);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+  }
+
+  .architecture__edge-body :global(p) {
+    margin: 0;
+  }
+
+  .architecture__caption {
+    margin-block-start: var(--space-16);
+    color: var(--text-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-xs);
+    line-height: var(--text-mono-xs--line-height);
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 1023px) {
+    .architecture__flow {
+      grid-template-columns: 1fr;
+    }
+
+    .architecture__node:not(:last-child)::after {
+      inset-block-start: auto;
+      inset-block-end: calc(var(--space-16) / -2 - 7px);
+      inset-inline-end: auto;
+      inset-inline-start: var(--space-16);
+      content: '↓';
+    }
+
+    .architecture__edges {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

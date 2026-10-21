@@ -41,5 +41,15 @@ export function projectBlock(block: Block): string {
 }
 
 export function projectPageMarkdown(entry: MarketingEntryData): string {
-  return [`# ${entry.h1}`, ...entry.sections.map(projectBlock)].join('\n\n') + '\n';
+  const header = [`# ${entry.h1}`];
+
+  if (entry.eyebrow) {
+    header.push(`**${entry.eyebrow}**`);
+  }
+
+  if (entry.positioning) {
+    header.push(entry.positioning);
+  }
+
+  return [...header, ...entry.sections.map(projectBlock)].join('\n\n') + '\n';
 }

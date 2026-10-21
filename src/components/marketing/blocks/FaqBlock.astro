@@ -1,0 +1,77 @@
+---
+import BlockHeading from '@/components/marketing/BlockHeading.astro';
+import type { FaqBlock } from '@/lib/blocks';
+import { renderMarkdown } from '@/lib/markdown';
+
+interface Props {
+  block: FaqBlock;
+}
+
+const { block } = Astro.props;
+---
+
+<section class="faq" data-block="faq" data-faq>
+  <BlockHeading heading={block.heading} intro={block.intro} />
+  <div class="faq__list">
+    {
+      block.items.map((item) => (
+        <details class="faq__item" data-faq-item>
+          <summary class="faq__question">{item.q}</summary>
+          <div class="faq__answer prose" set:html={renderMarkdown(item.a)} />
+        </details>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .faq__list {
+    border-block-end: 1px solid var(--border-hairline);
+  }
+
+  .faq__item {
+    border-block-start: 1px solid var(--border-hairline);
+  }
+
+  .faq__question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-16);
+    margin: 0;
+    padding: var(--space-16) 0;
+    color: var(--text-1);
+    cursor: pointer;
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--text-base--line-height);
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::after {
+    color: var(--text-3);
+    content: '+';
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    line-height: 1;
+  }
+
+  .faq__item[open] .faq__question::after {
+    content: '−';
+  }
+
+  .faq__question:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  .faq__answer {
+    max-inline-size: 72ch;
+    padding-block-end: var(--space-16);
+    color: var(--text-2);
+  }
+</style>
