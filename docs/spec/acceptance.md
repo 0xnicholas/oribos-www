@@ -201,7 +201,8 @@ These do not block the spec handoff. They block launch, and each has an owner.
 ## E. Sign-off record
 
 - Owner: @0xnicholas
-- Spec status: `handoff-ready`
+- Spec status: `accepted`
 - Sign-off vehicle: [#22](https://github.com/0xnicholas/oribos-www/pull/22), from `spec/handoff` to `main`
+- Sign-off: owner approved on 2026-10-21; PR #22 merged to `main`
 - Sign-off comment: recorded on [#16](https://github.com/0xnicholas/oribos-www/issues/16)
 - Date: 2026-10-21

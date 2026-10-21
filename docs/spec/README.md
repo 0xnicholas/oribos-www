@@ -1,6 +1,6 @@
 # Oribos WWW — Site Spec Handoff
 
-> Status: handoff-ready; owner sign-off pending in the handoff PR.
+> Status: accepted — owner sign-off recorded in PR #22; merged to `main` on 2026-10-21.
 > Date: 2026-10-21
 > Map: [Oribos 官网：Mastra 形态站点规格](https://github.com/0xnicholas/oribos-www/issues/1)
 > Ticket: [规格装配与交接验收标准](https://github.com/0xnicholas/oribos-www/issues/16)
@@ -146,8 +146,8 @@ code and not a scaffold. Do not merge it or fold it into the site.
 - Owner: @0xnicholas.
 - Sign-off vehicle: [#22](https://github.com/0xnicholas/oribos-www/pull/22), from `spec/handoff` to `main`.
 - Handoff acceptance: [`acceptance.md`](./acceptance.md) §A.
-- On sign-off, this file's status changes to `accepted`, and the sign-off comment is recorded on
-  #16.
+- Sign-off: owner approved on 2026-10-21; PR #22 merged to `main`; this file's status is `accepted`.
+  The sign-off comment is recorded on #16.
 - After sign-off, changes to locked areas require a new issue/ADR and owner approval; copy and typo
   fixes can go through PR review.
 
