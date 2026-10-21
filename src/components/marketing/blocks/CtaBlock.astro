@@ -1,0 +1,53 @@
+---
+import Button from '@/components/primitives/Button.astro';
+import type { CtaBlock } from '@/lib/blocks';
+import { renderMarkdown } from '@/lib/markdown';
+
+interface Props {
+  block: CtaBlock;
+}
+
+const { block } = Astro.props;
+const body = block.body ? renderMarkdown(block.body) : null;
+---
+
+<section class="cta-block" data-block="cta">
+  <h2 class="cta-block__heading">{block.heading}</h2>
+  {body && <div class="prose cta-block__body" set:html={body} />}
+  <div class="cta-block__actions">
+    {
+      block.actions.map((action) => (
+        <Button href={action.href} variant={action.variant} size="lg" external={action.external}>
+          {action.label}
+        </Button>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .cta-block {
+    padding-block-start: var(--space-48);
+    border-block-start: 1px solid var(--border-hairline);
+  }
+
+  .cta-block__heading {
+    margin: 0;
+    color: var(--text-1);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--text-xl--line-height);
+    letter-spacing: var(--tracking-heading);
+  }
+
+  .cta-block__body {
+    margin-block-start: var(--space-16);
+  }
+
+  .cta-block__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-12);
+    margin-block-start: var(--space-24);
+  }
+</style>

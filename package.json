@@ -13,16 +13,19 @@
     "build": "astro build",
     "preview": "node scripts/serve-dist.mjs",
     "typecheck": "astro check",
-    "verify": "pnpm verify:site && pnpm verify:design",
+    "verify": "pnpm verify:site && pnpm verify:design && pnpm verify:content",
+    "verify:content": "node --experimental-strip-types scripts/verify/content.mjs",
     "verify:design": "node scripts/verify/design.mjs",
     "verify:site": "node scripts/verify/site.mjs",
     "assets:favicons": "node scripts/make-favicons.mjs",
-    "test": "pnpm verify && pnpm typecheck && pnpm build && playwright test"
+    "test:content-model": "node --experimental-strip-types --test tests/unit/*.test.ts",
+    "test": "pnpm verify && pnpm test:content-model && pnpm typecheck && pnpm build && playwright test"
   },
   "dependencies": {
     "@astrojs/starlight": "0.42.4",
     "@tailwindcss/vite": "4.3.3",
     "astro": "7.3.5",
+    "satteri": "0.10.5",
     "tailwindcss": "4.3.3"
   },
   "devDependencies": {

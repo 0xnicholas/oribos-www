@@ -1,0 +1,43 @@
+{
+  "route": "/terms-of-service/",
+  "title": "Terms of service — Oribos",
+  "description": "Terms for using the Oribos website: Apache-2.0 code licensing, no warranty, no SLA, and separately scoped FDE engagements.",
+  "h1": "Terms of service",
+  "family": "legal",
+  "seo": {
+    "updated": "2026-10-21",
+    "jsonLd": ["Organization", "BreadcrumbList"]
+  },
+  "sections": [
+    {
+      "type": "prose",
+      "heading": "Acceptance",
+      "body": "By using this website, you accept these terms. If you do not agree, do not use the site. See [About Oribos](/about/) for who operates the site and the [privacy policy](/privacy-policy/) for how data is handled."
+    },
+    {
+      "type": "prose",
+      "heading": "Site content",
+      "body": "This site provides documentation and marketing content about Oribos. The content is provided as is, without warranty of any kind. We may change or remove content at any time."
+    },
+    {
+      "type": "prose",
+      "heading": "Open-source license",
+      "body": "The Oribos framework and its examples are licensed under the [Apache License 2.0](https://github.com/0xnicholas/oribos-framework/blob/main/LICENSE). That license covers the code, not the Oribos name or brand."
+    },
+    {
+      "type": "prose",
+      "heading": "No SLA",
+      "body": "Support is best effort through [GitHub Issues](https://github.com/0xnicholas/oribos-framework/issues). There is no service-level agreement, no guaranteed response time, and no guaranteed uptime for this site.\n\nFDE engagements are separately scoped under a written agreement. Nothing on this site creates one."
+    },
+    {
+      "type": "prose",
+      "heading": "Third-party links",
+      "body": "This site links to [GitHub](https://github.com/0xnicholas/oribos-framework) and other external sites. Those sites are governed by their own terms and privacy policies. We are not responsible for their content or practices."
+    },
+    {
+      "type": "prose",
+      "heading": "Changes and contact",
+      "body": "We may update these terms; the date at the top of this page reflects the latest version. Questions can go through [FDE + Support](/fde-support/) or the repository's [issues](https://github.com/0xnicholas/oribos-framework/issues)."
+    }
+  ]
+}

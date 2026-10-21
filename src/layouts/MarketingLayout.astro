@@ -1,0 +1,86 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+import BlockRenderer from '@/components/marketing/BlockRenderer.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import '@/styles/prose.css';
+
+interface Props {
+  entry: CollectionEntry<'marketing'>;
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const title = data.seo.title ?? data.title;
+const description = data.seo.description ?? data.description;
+const updated = data.seo.updated
+  ? new Intl.DateTimeFormat('en-GB', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'UTC',
+    }).format(new Date(`${data.seo.updated}T00:00:00Z`))
+  : null;
+---
+
+<BaseLayout title={title} description={description} noindex={data.seo.noindex}>
+  <main id="main" class="marketing-page">
+    <article class="marketing-page__article">
+      <header class="marketing-page__header">
+        <h1 class="marketing-page__title">{data.h1}</h1>
+        {
+          updated && (
+            <p class="marketing-page__meta">
+              Last updated <time datetime={data.seo.updated}>{updated}</time>
+            </p>
+          )
+        }
+      </header>
+      <div class="marketing-page__sections">
+        {data.sections.map((block) => <BlockRenderer block={block} />)}
+      </div>
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .marketing-page {
+    padding-block: var(--space-72) var(--space-96);
+    padding-inline: var(--gutter);
+  }
+
+  .marketing-page__article {
+    max-inline-size: var(--docs-article);
+    margin-inline: auto;
+  }
+
+  .marketing-page__header {
+    padding-block-end: var(--space-48);
+    border-block-end: 1px solid var(--border-hairline);
+  }
+
+  .marketing-page__title {
+    margin: 0;
+    color: var(--text-1);
+    font-size: var(--text-3xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--text-3xl--line-height);
+    letter-spacing: var(--tracking-heading);
+  }
+
+  .marketing-page__meta {
+    margin: var(--space-16) 0 0;
+    color: var(--text-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-sm);
+    line-height: var(--text-mono-sm--line-height);
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+  }
+
+  .marketing-page__sections {
+    display: grid;
+    gap: var(--space-64);
+    padding-block-start: var(--space-48);
+  }
+</style>

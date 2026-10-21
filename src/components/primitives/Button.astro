@@ -5,6 +5,7 @@ interface Props {
   size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
   disabled?: boolean;
+  external?: boolean;
   class?: string;
   type?: 'button' | 'submit' | 'reset';
 }
@@ -15,6 +16,7 @@ const {
   size = 'md',
   fullWidth = false,
   disabled = false,
+  external = false,
   class: className,
   type = 'button',
 } = Astro.props;
@@ -31,7 +33,12 @@ const classes = [
 
 {
   href ? (
-    <a class:list={classes} href={href} aria-disabled={disabled ? 'true' : undefined}>
+    <a
+      class:list={classes}
+      href={href}
+      aria-disabled={disabled ? 'true' : undefined}
+      rel={external ? 'noreferrer' : undefined}
+    >
       <slot />
     </a>
   ) : (

@@ -1,0 +1,25 @@
+---
+import CtaBlock from '@/components/marketing/blocks/CtaBlock.astro';
+import ProseBlock from '@/components/marketing/blocks/ProseBlock.astro';
+import {
+  BLOCK_REGISTRY,
+  type Block,
+  type CtaBlock as CtaBlockData,
+  type ProseBlock as ProseBlockData,
+} from '@/lib/blocks';
+
+interface Props {
+  block: Block;
+}
+
+const { block } = Astro.props;
+const renderer = BLOCK_REGISTRY[block.type].renderer;
+const expectedRenderer = block.type === 'prose' ? 'ProseBlock' : 'CtaBlock';
+
+if (renderer !== expectedRenderer) {
+  throw new Error(`No HTML renderer registered for block "${block.type}" (${renderer})`);
+}
+---
+
+{renderer === 'ProseBlock' && <ProseBlock block={block as ProseBlockData} />}
+{renderer === 'CtaBlock' && <CtaBlock block={block as CtaBlockData} />}

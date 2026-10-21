@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+
+import MarketingLayout from '@/layouts/MarketingLayout.astro';
+
+interface Props {
+  entry: CollectionEntry<'marketing'>;
+}
+
+export async function getStaticPaths() {
+  const entries = await getCollection('marketing');
+  const seen = new Set<string>();
+
+  return entries.flatMap((entry) => {
+    const { route } = entry.data;
+
+    if (route === '/') return [];
+
+    if (route === '/docs/' || route.startsWith('/docs/')) {
+      throw new Error(`Marketing route ${route} collides with the docs route space`);
+    }
+
+    if (seen.has(route)) {
+      throw new Error(`Duplicate marketing route: ${route}`);
+    }
+
+    seen.add(route);
+
+    return [{ params: { slug: route.slice(1, -1) }, props: { entry } }];
+  });
+}
+
+const { entry } = Astro.props;
+---
+
+<MarketingLayout entry={entry} />

@@ -1,0 +1,32 @@
+---
+import type { ProseBlock } from '@/lib/blocks';
+import { renderMarkdown } from '@/lib/markdown';
+
+interface Props {
+  block: ProseBlock;
+}
+
+const { block } = Astro.props;
+const html = renderMarkdown(block.body);
+---
+
+<section class="prose-block" data-block="prose">
+  {block.heading && <h2 class="prose-block__heading">{block.heading}</h2>}
+  <div class="prose" set:html={html} />
+</section>
+
+<style>
+  .prose-block {
+    display: grid;
+    gap: var(--space-16);
+  }
+
+  .prose-block__heading {
+    margin: 0;
+    color: var(--text-1);
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--text-xl--line-height);
+    letter-spacing: var(--tracking-heading);
+  }
+</style>

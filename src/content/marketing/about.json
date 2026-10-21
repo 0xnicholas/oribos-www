@@ -1,0 +1,50 @@
+{
+  "route": "/about/",
+  "title": "About — Oribos",
+  "description": "Oribos is an umbrella brand for an open-source agent framework of composable pieces. The Framework is live; the Platform is planned.",
+  "h1": "About Oribos",
+  "family": "company",
+  "seo": {
+    "jsonLd": ["Organization", "BreadcrumbList"]
+  },
+  "sections": [
+    {
+      "type": "prose",
+      "heading": "What Oribos is",
+      "body": "Oribos is the umbrella brand for an open-source agent framework and a planned platform. The [Framework](/ai-agent-framework/) is the live product: a library of composable pieces — agents, workflows, memory, a harness, and capability packages — that you add to your own application.\n\nIt is not a platform you operate, a hosted service you buy, or a blank file you have to fill in. You start with the core and add capability packages one at a time."
+    },
+    {
+      "type": "prose",
+      "heading": "Product family",
+      "body": "The product family has two layers. The Framework is live and is what this site documents. The Platform is planned: a hosted path for running and operating agents. Studio and Agent Builder are faces of the Platform, not separate products.\n\nThere are no dates or commitments attached to the Platform."
+    },
+    {
+      "type": "prose",
+      "heading": "Who maintains it",
+      "body": "Oribos is maintained by a small maintainer-led team. There is no larger company organization behind this site. The same team delivers Forward-Deployed Engineering engagements; everything else lands in the repository's issues."
+    },
+    {
+      "type": "prose",
+      "heading": "Where to get help",
+      "body": "Start with the [documentation](/docs/), or open an issue in the [GitHub repository](https://github.com/0xnicholas/oribos-framework/issues). For production work, FDE and support are available through [FDE + Support](/fde-support/).\n\nSupport is best effort through GitHub Issues, with no SLA."
+    },
+    {
+      "type": "cta",
+      "heading": "Build with Oribos.",
+      "body": "Read the documentation or explore the source on GitHub.",
+      "actions": [
+        {
+          "label": "Read the docs",
+          "href": "/docs/",
+          "variant": "primary"
+        },
+        {
+          "label": "GitHub",
+          "href": "https://github.com/0xnicholas/oribos-framework",
+          "variant": "secondary",
+          "external": true
+        }
+      ]
+    }
+  ]
+}

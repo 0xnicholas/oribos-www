@@ -1,0 +1,43 @@
+{
+  "route": "/privacy-policy/",
+  "title": "Privacy policy — Oribos",
+  "description": "How the Oribos website handles data: no analytics, cookies, or third-party scripts at launch; hosting logs may exist.",
+  "h1": "Privacy policy",
+  "family": "legal",
+  "seo": {
+    "updated": "2026-10-21",
+    "jsonLd": ["Organization", "BreadcrumbList"]
+  },
+  "sections": [
+    {
+      "type": "prose",
+      "heading": "Scope",
+      "body": "This policy covers the Oribos website and the documentation it serves. It does not cover the open-source framework's source code or an application you build with it. See [About Oribos](/about/) for who we are and the [terms of service](/terms-of-service/) for the terms that govern use of the site."
+    },
+    {
+      "type": "prose",
+      "heading": "Data we collect",
+      "body": "At launch, this site has no analytics, no cookies, and no third-party scripts. It does not set cookies for theme or preference storage. Your theme choice is kept in your browser's local storage, stays in your browser, and is not sent to us.\n\nThis site is served by a hosting provider. Like most hosts, it may record standard request logs such as IP address, request path, user agent, and timestamp. Those logs exist for operations and security."
+    },
+    {
+      "type": "prose",
+      "heading": "How we use data",
+      "body": "We use hosting data only to operate the site, keep it secure, and respond to support requests. We do not sell data, build user profiles, or use data for advertising."
+    },
+    {
+      "type": "prose",
+      "heading": "Third parties",
+      "body": "The only third party involved in serving this site is the hosting provider. There are no advertising, analytics, or tracking vendors. Links to [GitHub](https://github.com/0xnicholas/oribos-framework) and other external sites are governed by those sites' own policies."
+    },
+    {
+      "type": "prose",
+      "heading": "Your choices and contact",
+      "body": "For privacy questions, use the contact route on [FDE + Support](/fde-support/) or open an issue in the [GitHub repository](https://github.com/0xnicholas/oribos-framework/issues). Because the site does not collect personal data at launch, there is no account or profile to delete."
+    },
+    {
+      "type": "prose",
+      "heading": "Changes",
+      "body": "If this policy changes, we will update the date at the top of this page. If analytics or consent is introduced, this page and the consent scope will change together."
+    }
+  ]
+}
