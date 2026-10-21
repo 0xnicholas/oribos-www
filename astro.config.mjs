@@ -21,6 +21,20 @@ export default defineConfig({
         'An open-source agent framework of composable pieces — agents, workflows, memory, and a harness.',
       customCss: ['./src/styles/global.css'],
       disable404Route: true,
+      components: {
+        ThemeSelect: './src/components/chrome/ThemeToggle.astro',
+      },
+      head: [
+        {
+          tag: 'script',
+          content:
+            "(() => { try { const stored = localStorage.getItem('oribos-theme'); const theme = stored === 'light' || stored === 'dark' ? stored : matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; localStorage.setItem('starlight-theme', theme); } catch {} })();",
+        },
+        {
+          tag: 'meta',
+          attrs: { name: 'theme-color', 'data-theme-color': '' },
+        },
+      ],
     }),
   ],
   vite: {

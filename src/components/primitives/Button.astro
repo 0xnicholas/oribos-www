@@ -1,0 +1,123 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'text';
+  size?: 'sm' | 'md' | 'lg';
+  fullWidth?: boolean;
+  disabled?: boolean;
+  class?: string;
+  type?: 'button' | 'submit' | 'reset';
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  fullWidth = false,
+  disabled = false,
+  class: className,
+  type = 'button',
+} = Astro.props;
+
+const classes = [
+  'button',
+  `button--${variant}`,
+  `button--${size}`,
+  fullWidth && 'button--block',
+  disabled && 'button--disabled',
+  className,
+];
+---
+
+{
+  href ? (
+    <a class:list={classes} href={href} aria-disabled={disabled ? 'true' : undefined}>
+      <slot />
+    </a>
+  ) : (
+    <button class:list={classes} type={type} disabled={disabled}>
+      <slot />
+    </button>
+  )
+}
+
+<style>
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-8);
+    border: 1px solid transparent;
+    border-radius: 0;
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--text-base--line-height);
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color var(--duration-color) var(--ease-standard),
+      border-color var(--duration-color) var(--ease-standard),
+      color var(--duration-color) var(--ease-standard);
+  }
+
+  .button--sm {
+    min-block-size: 32px;
+    padding-inline: var(--space-16);
+  }
+
+  .button--md {
+    min-block-size: 40px;
+    padding-inline: var(--space-16);
+  }
+
+  .button--lg {
+    min-block-size: 48px;
+    padding-inline: var(--space-24);
+  }
+
+  .button--primary {
+    background-color: var(--accent-fill);
+    color: var(--accent-inv);
+  }
+
+  .button--primary:hover {
+    background-color: var(--accent-fill-hover);
+  }
+
+  .button--secondary {
+    background-color: transparent;
+    border-color: var(--border-strong);
+    color: var(--text-1);
+  }
+
+  .button--secondary:hover {
+    border-color: var(--accent-text);
+    color: var(--accent-text);
+  }
+
+  .button--text {
+    background-color: transparent;
+    color: var(--accent-text);
+  }
+
+  .button--text:hover {
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+  }
+
+  .button--block {
+    inline-size: 100%;
+  }
+
+  .button:disabled,
+  .button--disabled {
+    background-color: var(--surface-1);
+    border-color: var(--border-hairline);
+    color: var(--text-3);
+    cursor: not-allowed;
+  }
+</style>

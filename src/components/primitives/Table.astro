@@ -1,0 +1,89 @@
+---
+type Cell = string | number | { value: string | number; numeric?: boolean };
+
+interface Props {
+  caption?: string;
+  head: string[];
+  rows: Cell[][];
+}
+
+const { caption, head, rows } = Astro.props;
+
+const normalizedRows = rows.map((row) =>
+  row.map((cell) =>
+    typeof cell === 'object' ? cell : { value: cell, numeric: false },
+  ),
+);
+---
+
+<div class="table-wrap">
+  <table>
+    {caption && <caption>{caption}</caption>}
+    <thead>
+      <tr>
+        {head.map((label) => <th scope="col">{label}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {
+        normalizedRows.map((row) => (
+          <tr>
+            {row.map((cell, index) =>
+              index === 0 ? (
+                <th scope="row" class:list={{ 'is-numeric': cell.numeric }}>
+                  {cell.value}
+                </th>
+              ) : (
+                <td class:list={{ 'is-numeric': cell.numeric }}>{cell.value}</td>
+              ),
+            )}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border-hairline);
+  }
+
+  table {
+    inline-size: 100%;
+    border-collapse: collapse;
+    color: var(--text-1);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+  }
+
+  caption {
+    padding: var(--space-12) var(--space-16);
+    border-block-end: 1px solid var(--border-hairline);
+    color: var(--text-2);
+    text-align: start;
+  }
+
+  th,
+  td {
+    padding: var(--space-8) var(--space-16);
+    border: 1px solid var(--border-hairline);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  thead th {
+    background-color: var(--surface-2);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  tbody th {
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .is-numeric {
+    font-variant-numeric: tabular-nums;
+    text-align: end;
+  }
+</style>

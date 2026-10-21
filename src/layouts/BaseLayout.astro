@@ -1,6 +1,9 @@
 ---
 import '@/styles/global.css';
 
+import Footer from '@/components/chrome/Footer.astro';
+import Header from '@/components/chrome/Header.astro';
+import SkipLink from '@/components/chrome/SkipLink.astro';
 import { absoluteUrl } from '@/lib/site';
 
 interface Props {
@@ -38,6 +41,7 @@ const canonical = noindex ? null : absoluteUrl(Astro.url.pathname);
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" data-theme-color />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
     {noindex && <meta name="robots" content="noindex" />}
@@ -55,6 +59,9 @@ const canonical = noindex ? null : absoluteUrl(Astro.url.pathname);
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
   </head>
   <body data-pagefind-ignore={pagefindIgnore ? '' : undefined}>
+    <SkipLink />
+    <Header />
     <slot />
+    <Footer />
   </body>
 </html>

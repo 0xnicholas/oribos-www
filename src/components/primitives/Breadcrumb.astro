@@ -1,0 +1,74 @@
+---
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: Crumb[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <ol class="breadcrumb__list">
+    {
+      items.map((item, index) => {
+        const isCurrent = index === items.length - 1;
+
+        return (
+          <li class="breadcrumb__item">
+            {item.href && !isCurrent ? (
+              <a href={item.href}>{item.label}</a>
+            ) : (
+              <span aria-current={isCurrent ? 'page' : undefined}>{item.label}</span>
+            )}
+          </li>
+        );
+      })
+    }
+  </ol>
+</nav>
+
+<style>
+  .breadcrumb__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .breadcrumb__item {
+    display: inline-flex;
+    align-items: center;
+    color: var(--text-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-sm);
+    line-height: var(--text-mono-sm--line-height);
+  }
+
+  .breadcrumb__item + .breadcrumb__item::before {
+    content: '/';
+    margin-inline: var(--space-4);
+    color: var(--text-3);
+  }
+
+  .breadcrumb__item a {
+    color: var(--text-3);
+    text-decoration-line: none;
+  }
+
+  .breadcrumb__item a:hover {
+    color: var(--text-1);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  .breadcrumb__item span[aria-current='page'] {
+    color: var(--text-1);
+  }
+</style>

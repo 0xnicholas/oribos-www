@@ -1,0 +1,140 @@
+---
+import { BRAND } from '@/lib/brand';
+import { FOOTER_GROUPS, GITHUB_URL, LEGAL_LINKS } from '@/lib/navigation';
+---
+
+<footer class="site-footer" data-pagefind-ignore>
+  <div class="site-footer__inner">
+    <div class="site-footer__brand">
+      <a class="site-footer__wordmark" href="/" aria-label="Oribos home">Oribos</a>
+      <p class="site-footer__description">{BRAND.description}</p>
+      <a class="site-footer__link" href={GITHUB_URL} rel="noreferrer">GitHub</a>
+    </div>
+
+    {
+      FOOTER_GROUPS.map((group) => (
+        <nav class="site-footer__group" aria-label={group.label}>
+          <p class="site-footer__label">{group.label}</p>
+          <ul class="site-footer__list">
+            {group.links.map((link) => (
+              <li>
+                <a
+                  class="site-footer__link"
+                  href={link.href}
+                  rel={link.external ? 'noreferrer' : undefined}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ))
+    }
+
+    <div class="site-footer__legal" data-legal>
+      <span>© 2026 Oribos</span>
+      {
+        LEGAL_LINKS.map((link) => (
+          <a class="site-footer__link" href={link.href} rel="noreferrer">
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-block-start: 1px solid var(--border-hairline);
+    background-color: var(--surface-0);
+  }
+
+  .site-footer__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr));
+    gap: var(--space-32);
+    max-inline-size: var(--container);
+    margin-inline: auto;
+    padding-block: var(--space-48) var(--space-24);
+    padding-inline: var(--gutter);
+  }
+
+  .site-footer__brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-8);
+  }
+
+  .site-footer__wordmark {
+    color: var(--text-1);
+    font-size: 21px;
+    font-weight: var(--font-weight-semibold);
+    line-height: 28px;
+    letter-spacing: var(--tracking-wordmark);
+    text-decoration-line: none;
+  }
+
+  .site-footer__description {
+    max-inline-size: 36ch;
+    margin: 0;
+    color: var(--text-3);
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+  }
+
+  .site-footer__label {
+    margin: 0 0 var(--space-12);
+    color: var(--text-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-mono-xs);
+    line-height: var(--text-mono-xs--line-height);
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+  }
+
+  .site-footer__list {
+    display: grid;
+    gap: var(--space-8);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer__link {
+    color: var(--text-2);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    text-decoration-line: none;
+  }
+
+  .site-footer__link:hover {
+    color: var(--text-1);
+  }
+
+  .site-footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    grid-column: 1 / -1;
+    gap: var(--space-16);
+    padding-block-start: var(--space-24);
+    border-block-start: 1px solid var(--border-hairline);
+    color: var(--text-3);
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+  }
+
+  @media (max-width: 767px) {
+    .site-footer__inner {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 479px) {
+    .site-footer__inner {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

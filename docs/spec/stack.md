@@ -286,6 +286,7 @@ content sources
 - 需要 breadcrumb、Copy page、search trigger、三栏 grid 时，用 **官方 component override**；每项进 **override registry**（下表），写清原因与影响。
 - 不改 Starlight 的路由、collection、Pagefind；一旦需要，停下来记到 #16，不静默 fork。
 - 主题 storage key 统一 `oribos-theme`；保留 Starlight theme switch UI；双主题无 FOUC。
+- Starlight 的 `ThemeProvider` 在样式前读取自己的 `starlight-theme`。实现时在 Starlight `head` 中先按 `oribos-theme`（无值时按 OS 偏好）写入同值，再交给 provider；共享 toggle 只持久化 `oribos-theme`。`starlight-theme` 只是喂给 provider 的桥接值，不是第二个偏好源。
 
 ### 6.2 Override registry（首发）
 

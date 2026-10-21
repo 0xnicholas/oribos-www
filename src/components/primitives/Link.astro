@@ -1,0 +1,52 @@
+---
+interface Props {
+  href: string;
+  variant?: 'inline' | 'nav';
+  external?: boolean;
+  class?: string;
+  'aria-current'?: 'page' | 'step' | 'location' | 'date' | 'time' | 'true' | 'false' | boolean;
+}
+
+const {
+  href,
+  variant = 'inline',
+  external = false,
+  class: className,
+  'aria-current': ariaCurrent,
+} = Astro.props;
+---
+
+<a
+  class:list={['link', `link--${variant}`, className]}
+  href={href}
+  rel={external ? 'noreferrer' : undefined}
+  aria-current={ariaCurrent}
+>
+  <slot />
+</a>
+
+<style>
+  .link {
+    color: var(--accent-text);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  .link:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  .link--nav {
+    color: var(--text-2);
+    text-decoration-line: none;
+  }
+
+  .link--nav:hover {
+    color: var(--text-1);
+  }
+
+  .link--nav[aria-current='page'] {
+    color: var(--text-1);
+  }
+</style>
