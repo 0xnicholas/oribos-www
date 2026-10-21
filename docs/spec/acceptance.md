@@ -202,6 +202,6 @@ These do not block the spec handoff. They block launch, and each has an owner.
 
 - Owner: @0xnicholas
 - Spec status: `handoff-ready`
-- Sign-off vehicle: handoff PR from `spec/handoff` to `main`
+- Sign-off vehicle: [#22](https://github.com/0xnicholas/oribos-www/pull/22), from `spec/handoff` to `main`
 - Sign-off comment: recorded on [#16](https://github.com/0xnicholas/oribos-www/issues/16)
 - Date: 2026-10-21

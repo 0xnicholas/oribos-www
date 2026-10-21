@@ -4,7 +4,7 @@
 > Date: 2026-10-21
 > Map: [Oribos 官网：Mastra 形态站点规格](https://github.com/0xnicholas/oribos-www/issues/1)
 > Ticket: [规格装配与交接验收标准](https://github.com/0xnicholas/oribos-www/issues/16)
-> Handoff PR: opened from branch `spec/handoff`; see the ticket for the link.
+> Handoff PR: [#22](https://github.com/0xnicholas/oribos-www/pull/22), from branch `spec/handoff` to `main`.
 
 ## Destination
 
@@ -144,7 +144,7 @@ code and not a scaffold. Do not merge it or fold it into the site.
 ## Review and sign-off
 
 - Owner: @0xnicholas.
-- Sign-off vehicle: the handoff PR from `spec/handoff` to `main`.
+- Sign-off vehicle: [#22](https://github.com/0xnicholas/oribos-www/pull/22), from `spec/handoff` to `main`.
 - Handoff acceptance: [`acceptance.md`](./acceptance.md) §A.
 - On sign-off, this file's status changes to `accepted`, and the sign-off comment is recorded on
   #16.
