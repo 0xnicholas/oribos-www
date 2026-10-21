@@ -241,7 +241,7 @@
 | `docs/SPEC-revamp.md:27` | “无 RAG/evals 宣称” | 改为“RAG / evals 作为可选能力包可写；不得写进 core” | 旧红线过期 |
 | `docs/SPEC-revamp.md:431` | “RAG / evals 不作已实现宣称…” | 同上；该条整体退役 | 旧红线过期 |
 | `docs/SPEC-revamp.md:242,302` | 版本示例 `v0.6.0` / `VERSION = '0.6.0'` | 若保留该 spec，改为 0.9.0；更建议把 SPEC-revamp 标为历史，不作出厂依据 | 版本常量已升 |
-| `src/lib/links.ts:13` | `docs: 'https://github.com/0xnicholas/oribos-framework'` | 文档站上线后指 `https://oribos.dev/docs`（或子域裁决结果）；在此之前保留 GitHub 回退 | 链接债，不是事实错误 |
+| `src/lib/links.ts:13` | `docs: 'https://github.com/0xnicholas/oribos-framework'` | 文档站上线后指 `${SITE_ORIGIN}/docs`（provisional `https://oribos.ai/docs`；域名见「域名、托管与备案基线」）；在此之前保留 GitHub 回退 | 链接债，不是事实错误 |
 | `public/llms.txt` | 11 条营销页扁平清单 | 合并站改用构建期生成的 `/llms.txt`（营销 + docs + blog/resources） | 单站 agent surface 需要全站索引 |
 
 ### 5.2 文档站（`oribos-docs`）
@@ -346,7 +346,7 @@ find oribos-docs/src/content/docs/docs/reference/api -type f | wc -l
 
 - IA / 导航树、页面清单、每页大纲（归 #9 / #10 / #12 / #14 / #16）。
 - 视觉 token / 组件规格 / 品牌资产（归 #20 / #21）。
-- 技术栈与仓库形态（归 #13；已有候选评估 `docs/research/stack-options.md`）。
+- 技术栈与仓库形态（#13 已关闭；裁决见 `docs/spec/stack.md` 与 `docs/adr/0001-astro-starlight-single-app.md`）。
 - 域名、托管、备案（归 #18）。
 - 关键词页与 SEO 落地页集（归 #19）。
 - 定价、Platform 功能边界、FDE/Support 联系方式、博客/资源首发内容——仍是地图的 **Not yet specified**，需要 owner 或后续票输入。
